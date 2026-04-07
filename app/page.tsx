@@ -11,10 +11,12 @@ export default function Home() {
         <section className="container mx-auto px-4 py-32">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="text-black mb-6 text-6xl font-bold">
-              A better way to track your job application.
+              Track Every Opportunity <br />
+              Stay Ahead
             </h1>
             <p className="text-muted-foreground mb-10 text-xl">
-              Capture, organize, and manage your job search in one place.
+              Track applications, manage progress, and never lose sight of an
+              opportunity again-all in one simple dashboard.
             </p>
             <div className="flex flex-col items-center gap-4">
               <Link href="/sign-up">
@@ -44,10 +46,12 @@ export default function Home() {
                   Organize Applications
                 </h3>
                 <p className="text-muted-foreground">
-                  Create custom boards and columns to track your job
-                  applications at every stage of the process.
+                  Create personalized boards and columns to manage every stage
+                  of your job applications — from initial research to submitted
+                  applications.
                 </p>
               </div>
+
               <div className="flex flex-col">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <TrendingUp className="h-6 w-6 text-primary" />
@@ -56,20 +60,22 @@ export default function Home() {
                   Track Progress
                 </h3>
                 <p className="text-muted-foreground">
-                  Monitor your application status from applied to interview to
-                  offer with visual Kanban boards.
+                  Monitor your application status from “Applied” to “Interview”
+                  to “Offer” with <strong>visual Kanban boards</strong> that
+                  make it easy to see where each application stands.
                 </p>
               </div>
+
               <div className="flex flex-col">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <CheckCircle2 className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="mb-3 text-2xl font-semibold text-black">
-                  Stay Organized
+                  Stay Fully Organized
                 </h3>
                 <p className="text-muted-foreground">
-                  Never lose track of an application. Keep all your job search
-                  information in one centralized place.
+                  Keep all your job search information in one central hub —
+                  never lose track of an opportunity or important detail again.
                 </p>
               </div>
             </div>
