@@ -38,8 +38,8 @@ export async function initializeUserBoard(userId: string) {
           order: col.order,
           boardId: board._id,
           jobApplication: [],
-        })
-      )
+        }),
+      ),
     );
 
     // Update the board with the new column IDs
