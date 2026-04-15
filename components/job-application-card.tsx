@@ -2,7 +2,7 @@
 
 import { JobApplication, Column } from "@/lib/models/models.types";
 import { Card, CardContent } from "./ui/card";
-import { Edit2, ExternalLink, MoreVertical, Plus, Trash2 } from "lucide-react";
+import { Edit2, ExternalLink, MoreVertical, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -86,6 +86,10 @@ export default function JobApplicationCard({
       const result = await updateJobApplication(job._id, {
         columnId: newColumnId,
       });
+
+      if (result.error) {
+        console.error("Failed to move job application:", result.error);
+      }
     } catch (err) {
       console.error("Failed to move job application: ", err);
     }
@@ -126,7 +130,9 @@ export default function JobApplicationCard({
                   target="_blank"
                   className="inline-flex items-center gap-1 text-xs text-primary hover:underline mt-1"
                   onClick={(e) => e.stopPropagation()}
+                  aria-label={`View job posting for ${job.position} at ${job.company}`}
                 >
+                  View Job Posting
                   <ExternalLink className="h-3 w-3" />
                 </a>
               )}
