@@ -1,72 +1,77 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Board, Column, JobApplication } from "../models/models.types";
 import { updateJobApplication } from "../actions/job-applications";
 
 export function useBoard(initialBoard?: Board | null) {
-  const [board, setBoard] = useState<Board | null>(initialBoard || null);
-  const [columns, setColumns] = useState<Column[]>(initialBoard?.columns || []);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
+
+  // Columns MUST be state because we update them (drag & drop)
+  const [columns, setColumns] = useState<Column[]>(
+    initialBoard?.columns || []
+  );
+
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (initialBoard) {
-      setBoard(initialBoard);
-      setColumns(initialBoard.columns || []);
-    }
-  }, [initialBoard]);
-
+  /** MOVE JOB FUNCTION -This handles drag & drop movement in UI AND updates backend */
   async function moveJob(
     jobApplicationId: string,
     newColumnId: string,
     newOrder: number
   ) {
     setColumns((prev) => {
+    //   Make a deep copy of columns (so we don't mutate state directly)
       const newColumns = prev.map((col) => ({
         ...col,
         jobApplications: [...col.jobApplications],
       }));
 
-      // Find and remove job from the old column
-
       let jobToMove: JobApplication | null = null;
-      let oldColumnId: string | null = null;
 
+      //Find the job and remove it from its old column
       for (const col of newColumns) {
         const jobIndex = col.jobApplications.findIndex(
           (j) => j._id === jobApplicationId
         );
-        if (jobIndex !== -1 && jobIndex !== undefined) {
+
+        if (jobIndex !== -1) {
           jobToMove = col.jobApplications[jobIndex];
-          oldColumnId = col._id;
+
+          // ❌ Remove job from old column
           col.jobApplications = col.jobApplications.filter(
             (job) => job._id !== jobApplicationId
           );
+
           break;
         }
       }
 
-      if (jobToMove && oldColumnId) {
+      //Add job into new column
+      if (jobToMove) {
         const targetColumnIndex = newColumns.findIndex(
           (col) => col._id === newColumnId
         );
+
         if (targetColumnIndex !== -1) {
           const targetColumn = newColumns[targetColumnIndex];
-          const currentJobs = targetColumn.jobApplications || [];
 
-          const updatedJobs = [...currentJobs];
+          const updatedJobs = [...(targetColumn.jobApplications || [])];
+
+          // Insert job at correct position
           updatedJobs.splice(newOrder, 0, {
             ...jobToMove,
             columnId: newColumnId,
-            order: newOrder * 100,
+            order: newOrder * 100, // spacing technique
           });
 
-          const jobsWithUpdatedOrders = updatedJobs.map((job, idx) => ({
+          // Recalculate all orders
+          const jobsWithUpdatedOrders = updatedJobs.map((job, index) => ({
             ...job,
-            order: idx * 100,
+            order: index * 100,
           }));
 
+          // Update column
           newColumns[targetColumnIndex] = {
             ...targetColumn,
             jobApplications: jobsWithUpdatedOrders,
@@ -77,15 +82,23 @@ export function useBoard(initialBoard?: Board | null) {
       return newColumns;
     });
 
+    // Update backend (database)
     try {
       await updateJobApplication(jobApplicationId, {
         columnId: newColumnId,
         order: newOrder,
       });
     } catch (err) {
-      console.error("Error", err);
+      console.error("Error updating job:", err);
+      setError("Failed to move job");
     }
   }
 
-  return { board, columns, error, moveJob };
+  // RETURN HOOK DATA
+  return {
+    board: initialBoard, // no need for state
+    columns,
+    error,
+    moveJob,
+  };
 }
