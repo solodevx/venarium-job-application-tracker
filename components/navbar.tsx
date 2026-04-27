@@ -1,6 +1,5 @@
 "use client";
 
-import { Briefcase } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import {
@@ -12,6 +11,7 @@ import {
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import SignOutButton from "./sign-out-btn";
 import { useSession } from "@/lib/auth/auth-client";
+import Image from "next/image";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -22,7 +22,12 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2 text-xl font-semibold text-primary"
         >
-          <Briefcase />
+          <Image
+            src="/logo/logo.svg"
+            alt="Venarium Logo"
+            width={32}
+            height={32}
+          />
           VENARIUM
         </Link>
         <div className="flex items-center gap-4">

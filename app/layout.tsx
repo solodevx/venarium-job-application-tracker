@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   description: "Track and manage your job applications in one place.",
   icons: {
-    icon: "/favicon.ico",
+    icon: " /logo/logo.svg",
   },
 };
 
