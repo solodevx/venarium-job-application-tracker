@@ -2,7 +2,7 @@
 
 import { JobApplication, Column } from "@/lib/models/models.types";
 import { Card, CardContent } from "./ui/card";
-import { Edit2, ExternalLink, MoreVertical, Trash2 } from "lucide-react";
+import { Edit2, ExternalLink, MoreVertical, Plus, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,12 +30,16 @@ interface JobApplicationCardProps {
   job: JobApplication;
   columns: Column[];
   dragHandleProps?: React.HTMLAttributes<HTMLElement>;
+  onJobRemoved?: (jobId: string) => void;
+  onJobUpdated?: (jobId: string, updatedData: Partial<JobApplication>) => void;
 }
 
 export default function JobApplicationCard({
   job,
   columns,
   dragHandleProps,
+  onJobRemoved,
+  onJobUpdated,
 }: JobApplicationCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -50,46 +54,45 @@ export default function JobApplicationCard({
     description: job.description || "",
   });
 
-  async function handleUpdate(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      const result = await updateJobApplication(job._id, {
-        ...formData,
-        tags: formData.tags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter((tag) => tag.length > 0),
-      });
+async function handleUpdate(e: React.FormEvent) {
+  e.preventDefault();
+  try {
+    const result = await updateJobApplication(job._id, {
+      ...formData,
+      tags: formData.tags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0),
+    });
 
-      if (!result.error) {
-        setIsEditing(false);
-      }
-    } catch (err) {
-      console.error("Failed to move job application: ", err);
+    if (!result.error) {
+      onJobUpdated?.(job._id, result.data)
+      setIsEditing(false);
     }
+  } catch (err) {
+    console.error("Failed to update job application: ", err);
   }
+}
 
-  async function handleDelete() {
-    try {
-      const result = await deleteJobApplication(job._id);
+async function handleDelete() {
+  try {
+    const result = await deleteJobApplication(job._id);
 
-      if (result.error) {
-        console.error("Failed to delete job application:", result.error);
-      }
-    } catch (err) {
-      console.error("Failed to move job application: ", err);
+    if (!result.error) {
+      onJobRemoved?.(job._id) // 👈 update TV immediately!
+    } else {
+      console.error("Failed to delete job application:", result.error);
     }
+  } catch (err) {
+    console.error("Failed to delete job application: ", err);
   }
+}
 
   async function handleMove(newColumnId: string) {
     try {
       const result = await updateJobApplication(job._id, {
         columnId: newColumnId,
       });
-
-      if (result.error) {
-        console.error("Failed to move job application:", result.error);
-      }
     } catch (err) {
       console.error("Failed to move job application: ", err);
     }
@@ -130,9 +133,7 @@ export default function JobApplicationCard({
                   target="_blank"
                   className="inline-flex items-center gap-1 text-xs text-primary hover:underline mt-1"
                   onClick={(e) => e.stopPropagation()}
-                  aria-label={`View job posting for ${job.position} at ${job.company}`}
                 >
-                  View Job Posting
                   <ExternalLink className="h-3 w-3" />
                 </a>
               )}

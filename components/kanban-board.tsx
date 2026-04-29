@@ -6,6 +6,7 @@ import {
   Calendar,
   CheckCircle2,
   Mic,
+  MoreHorizontal,
   MoreVertical,
   Trash2,
   XCircle,
@@ -39,6 +40,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
+import column from "@/lib/models/column";
 
 interface KanbanBoardProps {
   board: Board;
@@ -77,11 +79,17 @@ function DroppableColumn({
   config,
   boardId,
   sortedColumns,
+  onJobAdded,
+  onJobRemoved,
+  onJobUpdated,
 }: {
   column: Column;
   config: ColConfig;
   boardId: string;
   sortedColumns: Column[];
+  onJobAdded: (newJob: JobApplication, columnId: string) => void;
+  onJobRemoved: (jobId: string) => void;
+  onJobUpdated: (jobId: string, updatedData: Partial<JobApplication>) => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({
     id: column._id,
@@ -94,7 +102,7 @@ function DroppableColumn({
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
   return (
-    <Card className="min-w-75 shrink-0 shadow-md p-0">
+    <Card className="min-w-[300px] flex-shrink-0 shadow-md p-0">
       <CardHeader
         className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}
       >
@@ -127,7 +135,7 @@ function DroppableColumn({
 
       <CardContent
         ref={setNodeRef}
-        className={`space-y-2 pt-4 bg-gray-50/50 min-h-100 rounded-b-lg ${
+        className={`space-y-2 pt-4 bg-gray-50/50 min-h-[400px] rounded-b-lg ${
           isOver ? "ring-2 ring-blue-500" : ""
         }`}
       >
@@ -140,11 +148,17 @@ function DroppableColumn({
               key={key}
               job={{ ...job, columnId: job.columnId || column._id }}
               columns={sortedColumns}
+              onJobRemoved={onJobRemoved}
+              onJobUpdated={onJobUpdated}
             />
           ))}
         </SortableContext>
 
-        <CreateJobApplicationDialog columnId={column._id} boardId={boardId} />
+        <CreateJobApplicationDialog
+          columnId={column._id}
+          boardId={boardId}
+          onJobAdded={onJobAdded}
+        />
       </CardContent>
     </Card>
   );
@@ -153,9 +167,13 @@ function DroppableColumn({
 function SortableJobCard({
   job,
   columns,
+  onJobRemoved,
+  onJobUpdated,
 }: {
   job: JobApplication;
   columns: Column[];
+  onJobRemoved: (jobId: string) => void;
+  onJobUpdated: (jobId: string, updatedData: Partial<JobApplication>) => void;
 }) {
   const {
     attributes,
@@ -183,15 +201,16 @@ function SortableJobCard({
         job={job}
         columns={columns}
         dragHandleProps={{ ...attributes, ...listeners }}
+        onJobRemoved={onJobRemoved}
+        onJobUpdated={onJobUpdated}
       />
     </div>
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const { columns, moveJob } = useBoard(board);
+  const { columns, moveJob, addJob, removeJob, updateJob } = useBoard(board);
 
   const sortedColumns = columns?.sort((a, b) => a.order - b.order) || [];
 
@@ -200,7 +219,7 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
       activationConstraint: {
         distance: 8,
       },
-    })
+    }),
   );
 
   async function handleDragStart(event: DragStartEvent) {
@@ -253,13 +272,13 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
       newOrder = jobsInTarget.length;
     } else if (targetJob) {
       const targetJobColumn = sortedColumns.find((col) =>
-        col.jobApplications.some((j) => j._id === targetJob._id)
+        col.jobApplications.some((j) => j._id === targetJob._id),
       );
       targetColumnId = targetJob.columnId || targetJobColumn?._id || "";
       if (!targetColumnId) return;
 
       const targetColumnObj = sortedColumns.find(
-        (col) => col._id === targetColumnId
+        (col) => col._id === targetColumnId,
       );
 
       if (!targetColumnObj) return;
@@ -271,11 +290,11 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
         allJobsInTargetOriginal.filter((j) => j._id !== activeId) || [];
 
       const targetIndexInOriginal = allJobsInTargetOriginal.findIndex(
-        (j) => j._id === overId
+        (j) => j._id === overId,
       );
 
       const targetIndexInFiltered = allJobsInTargetFiltered.findIndex(
-        (j) => j._id === overId
+        (j) => j._id === overId,
       );
 
       if (targetIndexInFiltered !== -1) {
@@ -314,7 +333,7 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
     >
       <div className="space-y-4">
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {sortedColumns.map((col, key) => {
+          {sortedColumns.map((column, key) => {
             const config = COLUMN_CONFIG[key] || {
               color: "bg-gray-500",
               icon: <Calendar className="h-4 w-4" />,
@@ -322,10 +341,13 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
             return (
               <DroppableColumn
                 key={key}
-                column={col}
+                column={column}
                 config={config}
                 boardId={board._id}
                 sortedColumns={sortedColumns}
+                onJobAdded={addJob}
+                onJobRemoved={removeJob}
+                onJobUpdated={updateJob}
               />
             );
           })}

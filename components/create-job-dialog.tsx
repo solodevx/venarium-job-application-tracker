@@ -16,11 +16,12 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import React, { useState } from "react";
 import { createJobApplication } from "@/lib/actions/job-applications";
-import { useRouter } from "next/navigation";
+import { JobApplication } from "@/lib/models/models.types";
 
 interface CreateJobApplicationDialogProps {
   columnId: string;
   boardId: string;
+  onJobAdded: (newJob: JobApplication, columnId: string) => void;
 }
 
 const INITIAL_FORM_DATA = {
@@ -37,8 +38,8 @@ const INITIAL_FORM_DATA = {
 export default function CreateJobApplicationDialog({
   columnId,
   boardId,
+  onJobAdded,
 }: CreateJobApplicationDialogProps) {
-  const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
@@ -57,10 +58,11 @@ export default function CreateJobApplicationDialog({
       });
 
       if (!result.error) {
+        console.log("result:", result)
+        console.log("result.data:", result.data)
+        onJobAdded(result.data, columnId);
         setFormData(INITIAL_FORM_DATA);
         setOpen(false);
-        router.refresh();// Refresh the page to show the new job application in the list
-        
       } else {
         console.error("Failed to create job: ", result.error);
       }
