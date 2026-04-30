@@ -96,6 +96,8 @@ async function handleMove(newColumnId: string) {
       columnId: newColumnId,
     });
 
+console.log("=== MOVE RESULT ===", JSON.stringify(result))
+
     if (!result.error) {
       onJobMoved?.(job._id, newColumnId, result.data)
     }
