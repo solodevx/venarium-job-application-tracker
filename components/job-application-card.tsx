@@ -32,6 +32,7 @@ interface JobApplicationCardProps {
   dragHandleProps?: React.HTMLAttributes<HTMLElement>;
   onJobRemoved?: (jobId: string) => void;
   onJobUpdated?: (jobId: string, updatedData: Partial<JobApplication>) => void;
+  onJobMoved?: (jobId: string, newColumnId: string, updatedJob: JobApplication) => void;
 }
 
 export default function JobApplicationCard({
@@ -40,6 +41,7 @@ export default function JobApplicationCard({
   dragHandleProps,
   onJobRemoved,
   onJobUpdated,
+  onJobMoved,
 }: JobApplicationCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -79,7 +81,7 @@ async function handleDelete() {
     const result = await deleteJobApplication(job._id);
 
     if (!result.error) {
-      onJobRemoved?.(job._id) // 👈 update TV immediately!
+      onJobRemoved?.(job._id)
     } else {
       console.error("Failed to delete job application:", result.error);
     }
@@ -88,15 +90,19 @@ async function handleDelete() {
   }
 }
 
-  async function handleMove(newColumnId: string) {
-    try {
-      const result = await updateJobApplication(job._id, {
-        columnId: newColumnId,
-      });
-    } catch (err) {
-      console.error("Failed to move job application: ", err);
+async function handleMove(newColumnId: string) {
+  try {
+    const result = await updateJobApplication(job._id, {
+      columnId: newColumnId,
+    });
+
+    if (!result.error) {
+      onJobMoved?.(job._id, newColumnId, result.data)
     }
+  } catch (err) {
+    console.error("Failed to move job application: ", err);
   }
+}
   return (
     <>
       <Card

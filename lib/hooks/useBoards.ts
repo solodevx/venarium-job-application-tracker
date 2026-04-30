@@ -112,6 +112,26 @@ export function useBoard(initialBoard?: Board | null) {
     );
   }
 
-  // update return
-  return { board, columns, error, moveJob, addJob, removeJob, updateJob };
+function moveJobBetweenColumns(jobId: string, newColumnId: string, updatedJob: JobApplication) {
+  setColumns((prev) =>
+    prev.map((column) => {
+      if (column.jobApplications.some((job) => job._id === jobId)) {
+        return {
+          ...column,
+          jobApplications: column.jobApplications.filter((job) => job._id !== jobId),
+        };
+      }
+      if (column._id === newColumnId) {
+        return {
+          ...column,
+          jobApplications: [...column.jobApplications, updatedJob],
+        };
+      }
+      return column;
+    })
+  );
+}
+
+
+return { board, columns, error, moveJob, addJob, removeJob, updateJob, moveJobBetweenColumns };
 }

@@ -82,6 +82,7 @@ function DroppableColumn({
   onJobAdded,
   onJobRemoved,
   onJobUpdated,
+  onJobMoved,
 }: {
   column: Column;
   config: ColConfig;
@@ -90,6 +91,7 @@ function DroppableColumn({
   onJobAdded: (newJob: JobApplication, columnId: string) => void;
   onJobRemoved: (jobId: string) => void;
   onJobUpdated: (jobId: string, updatedData: Partial<JobApplication>) => void;
+  onJobMoved: (jobId: string, newColumnId: string, updatedJob: JobApplication) => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({
     id: column._id,
@@ -150,6 +152,7 @@ function DroppableColumn({
               columns={sortedColumns}
               onJobRemoved={onJobRemoved}
               onJobUpdated={onJobUpdated}
+              onJobMoved={onJobMoved}
             />
           ))}
         </SortableContext>
@@ -169,11 +172,13 @@ function SortableJobCard({
   columns,
   onJobRemoved,
   onJobUpdated,
+  onJobMoved,
 }: {
   job: JobApplication;
   columns: Column[];
   onJobRemoved: (jobId: string) => void;
   onJobUpdated: (jobId: string, updatedData: Partial<JobApplication>) => void;
+  onJobMoved: (jobId: string, newColumnId: string, updatedJob: JobApplication) => void;
 }) {
   const {
     attributes,
@@ -203,6 +208,7 @@ function SortableJobCard({
         dragHandleProps={{ ...attributes, ...listeners }}
         onJobRemoved={onJobRemoved}
         onJobUpdated={onJobUpdated}
+        onJobMoved={onJobMoved}
       />
     </div>
   );
@@ -210,7 +216,7 @@ function SortableJobCard({
 
 export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const { columns, moveJob, addJob, removeJob, updateJob } = useBoard(board);
+  const { columns, moveJob, addJob, removeJob, updateJob, moveJobBetweenColumns } = useBoard(board);
 
   const sortedColumns = columns?.sort((a, b) => a.order - b.order) || [];
 
@@ -348,6 +354,7 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
                 onJobAdded={addJob}
                 onJobRemoved={removeJob}
                 onJobUpdated={updateJob}
+                onJobMoved={moveJobBetweenColumns}
               />
             );
           })}
