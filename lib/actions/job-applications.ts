@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { getSession } from "../auth/auth";
 import connectDB from "../db";
 import { Board, Column, JobApplication } from "../models";
@@ -90,7 +89,6 @@ export async function createJobApplication(data: JobApplicationData) {
     $push: { jobApplications: jobApplication._id },
   });
 
-  revalidatePath("/dashboard");
 
   return { data: JSON.parse(JSON.stringify(jobApplication)) };
 }
@@ -230,7 +228,6 @@ export async function updateJobApplication(
     new: true,
   });
 
-  revalidatePath("/dashboard");
 
   return { data: JSON.parse(JSON.stringify(updated)) };
 }
@@ -257,7 +254,6 @@ export async function deleteJobApplication(id: string) {
   });
 
   await JobApplication.deleteOne({ _id: id });
-  revalidatePath("/dashboard");
 
   return { success: true };
 }
