@@ -39,8 +39,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
-import column from "@/lib/models/column";
+import { useState, useEffect } from "react";
 
 interface KanbanBoardProps {
   board: Board;
@@ -91,7 +90,11 @@ function DroppableColumn({
   onJobAdded: (newJob: JobApplication, columnId: string) => void;
   onJobRemoved: (jobId: string) => void;
   onJobUpdated: (jobId: string, updatedData: Partial<JobApplication>) => void;
-  onJobMoved: (jobId: string, newColumnId: string, updatedJob: JobApplication) => void;
+  onJobMoved: (
+    jobId: string,
+    newColumnId: string,
+    updatedJob: JobApplication,
+  ) => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({
     id: column._id,
@@ -178,7 +181,11 @@ function SortableJobCard({
   columns: Column[];
   onJobRemoved: (jobId: string) => void;
   onJobUpdated: (jobId: string, updatedData: Partial<JobApplication>) => void;
-  onJobMoved: (jobId: string, newColumnId: string, updatedJob: JobApplication) => void;
+  onJobMoved: (
+    jobId: string,
+    newColumnId: string,
+    updatedJob: JobApplication,
+  ) => void;
 }) {
   const {
     attributes,
@@ -216,10 +223,18 @@ function SortableJobCard({
 
 export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const { columns, moveJob, addJob, removeJob, updateJob, moveJobBetweenColumns } = useBoard(board);
+  const [isMounted, setIsMounted] = useState(false);
+
+  const {
+    columns,
+    moveJob,
+    addJob,
+    removeJob,
+    updateJob,
+    moveJobBetweenColumns,
+  } = useBoard(board);
 
   const sortedColumns = columns?.sort((a, b) => a.order - b.order) || [];
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -227,6 +242,13 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
       },
     }),
   );
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   async function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
