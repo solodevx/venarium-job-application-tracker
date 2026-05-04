@@ -8,19 +8,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import SignOutButton from "./sign-out-btn";
 import { useSession } from "@/lib/auth/auth-client";
 import Image from "next/image";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "U";
   return (
     <nav className="border-b border-gray-200 bg-white">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link
           href="/"
-          className="flex items-center gap-2 text-xl font-semibold text-primary"
+          className="flex items-center gap-2 text-xl font-bold text-primary"
         >
           <Image
             src="/logo/logo.svg"
@@ -36,7 +37,7 @@ export default function Navbar() {
               <Link href="/dashboard">
                 <Button
                   variant="ghost"
-                  className="text-gray-700 hover:text-black"
+                  className="h-11 rounded-none border border-zinc-300 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background"
                 >
                   Dashboard
                 </Button>
@@ -45,11 +46,15 @@ export default function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
+                    className="group/avatar-trigger relative h-8 w-8 cursor-pointer rounded-full bg-primary p-0 ring-2 ring-ring transition hover:bg-secondary-foreground hover:ring-primary/50"
                   >
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary text-white">
-                        {session.user.name[0].toUpperCase()}
+                    <Avatar className="h-full w-full after:border-0">
+                      <AvatarImage
+                        src={session.user.image ?? undefined}
+                        alt={`${session.user.name ?? "User"} profile photo`}
+                      />
+                      <AvatarFallback className="bg-primary text-xs font-semibold uppercase tracking-[0.12em] text-secondary-foreground transition group-hover/avatar-trigger:bg-secondary-foreground group-hover/avatar-trigger:text-primary">
+                        {userInitial}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -75,13 +80,13 @@ export default function Navbar() {
               <Link href="/sign-in">
                 <Button
                   variant="ghost"
-                  className="text-gray-700 hover:text-black"
+                  className="h-11 rounded-none border border-zinc-300 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background"
                 >
                   Log In
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button className="bg-primary hover:bg-primary/90">
+                <Button className="h-11 rounded-none bg-primary px-6 text-xs font-semibold uppercase tracking-[0.12em] text-secondary-foreground transition hover:bg-secondary-foreground hover:text-primary hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background">
                   Start for free
                 </Button>
               </Link>

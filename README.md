@@ -35,3 +35,31 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # venarium-job-application-tracker
+
+
+
+Project: Venarium Job Application Tracker
+
+Tech Stack:
+├── Next.js (App Router)
+├── TypeScript
+├── MongoDB + Mongoose
+├── Authentication (sessions)
+├── DnD Kit (drag and drop)
+├── Tailwind CSS
+└── shadcn/ui components
+
+Features Built:
+├── Kanban board with drag and drop
+├── Add job application
+├── Edit job application
+├── Delete job application
+├── Move jobs between columns (drag and drop + dropdown)
+├── Real-time UI updates (no page refresh needed)
+└── Persistent state after refresh
+
+Architecture:
+├── Server Actions for database operations
+├── useBoard hook for client state management
+├── Optimistic UI updates via callback chain
+└── Client-only DnD rendering (hydration fix)
