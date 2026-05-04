@@ -46,14 +46,15 @@ export default function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="group/avatar-trigger relative h-8 w-8 cursor-pointer rounded-full bg-primary p-0 ring-2 ring-ring transition hover:bg-secondary-foreground hover:ring-primary/50"
+                    size="icon"
+                    className="group/avatar-trigger shrink-0 cursor-pointer rounded-full bg-primary p-0 transition-colors hover:bg-zinc-100 hover:text-black"
                   >
-                    <Avatar className="h-full w-full after:border-0">
+                    <Avatar className="flex size-full items-center justify-center overflow-hidden after:border-0">
                       <AvatarImage
                         src={session.user.image ?? undefined}
-                        alt={`${session.user.name ?? "User"} profile photo`}
+                        alt={`${session.user.name ?? "User"} profile photo`}  
                       />
-                      <AvatarFallback className="bg-primary text-xs font-semibold uppercase tracking-[0.12em] text-secondary-foreground transition group-hover/avatar-trigger:bg-secondary-foreground group-hover/avatar-trigger:text-primary">
+                      <AvatarFallback className="flex size-full items-center justify-center bg-primary text-sm font-semibold leading-none tracking-normal text-secondary-foreground uppercase transition group-hover/avatar-trigger:bg-zinc-100 group-hover/avatar-trigger:text-black">
                         {userInitial}
                       </AvatarFallback>
                     </Avatar>
