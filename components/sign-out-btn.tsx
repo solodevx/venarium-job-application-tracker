@@ -9,6 +9,7 @@ export default function SignOutButton() {
 
   return (
     <DropdownMenuItem
+      className="rounded-none"
       onClick={async () => {
         const result = await signOut();
         if (result.data) {

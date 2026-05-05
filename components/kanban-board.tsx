@@ -52,19 +52,19 @@ interface ColConfig {
 }
 const COLUMN_CONFIG: Array<ColConfig> = [
   {
-    color: "bg-cyan-500",
+    color: "bg-gray-500",
     icon: <Calendar className="h-4 w-4" />,
   },
   {
-    color: "bg-purple-500",
+    color: "bg-blue-500",
     icon: <CheckCircle2 className="h-4 w-4" />,
   },
   {
-    color: "bg-green-500",
+    color: "bg-yellow-500",
     icon: <Mic className="h-4 w-4" />,
   },
   {
-    color: "bg-yellow-500",
+    color: "bg-green-500",
     icon: <Award className="h-4 w-4" />,
   },
   {
@@ -107,7 +107,7 @@ function DroppableColumn({
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
   return (
-    <Card className="min-w-[300px] flex-shrink-0 shadow-md p-0">
+    <Card className="min-w-75 shrink-0 shadow-md p-0 rounded-none">
       <CardHeader
         className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}
       >

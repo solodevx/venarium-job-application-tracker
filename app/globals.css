@@ -41,42 +41,14 @@
 :root {
   --radius: 0.625rem;
 
-  --background: #F0FFF1; /* soft minty white */
-  --foreground: #5603AD; /* deep purple */
+  --background: #F0FFF1;
+  --foreground: #5603AD;
 
   --card: #F0FFF1;
   --card-foreground: #5603AD;
 
   --popover: #F0FFF1;
   --popover-foreground: #5603AD;
-
-  --primary: #5603AD; /* deep purple */
-  --primary-foreground: #F0FFF1;
-
-  --secondary: #8367C7; /* soft purple */
-  --secondary-foreground: #F0FFF1;
-
-  --muted: #B3E9C7; /* mint green */
-  --muted-foreground: #5603AD;
-
-  --accent: #B3E9C7;
-  --accent-foreground: #5603AD;
-
-  --border: #8367C7;
-  --input: #8367C7;
-  --ring: #5603AD;
-}
-
-/* 🌙 Dark Mode */
-.dark {
-  --background: #5603AD;
-  --foreground: #F0FFF1;
-
-  --card: #8367C7;
-  --card-foreground: #F0FFF1;
-
-  --popover: #8367C7;
-  --popover-foreground: #F0FFF1;
 
   --primary: #5603AD;
   --primary-foreground: #F0FFF1;
@@ -90,9 +62,37 @@
   --accent: #B3E9C7;
   --accent-foreground: #5603AD;
 
-  --border: #B3E9C7;
-  --input: #B3E9C7;
-  --ring: #F0FFF1;
+  --border: #8367C7;
+  --input: #8367C7;
+  --ring: #5603AD;
+}
+
+/* 🌙 Dark Mode — placeholder, to be designed */
+.dark {
+  --background: #0D0D0D;
+  --foreground: #F0FFF1;
+
+  --card: #1A1A2E;
+  --card-foreground: #F0FFF1;
+
+  --popover: #1A1A2E;
+  --popover-foreground: #F0FFF1;
+
+  --primary: #8367C7;
+  --primary-foreground: #F0FFF1;
+
+  --secondary: #5603AD;
+  --secondary-foreground: #F0FFF1;
+
+  --muted: #B3E9C7;
+  --muted-foreground: #0D0D0D;
+
+  --accent: #B3E9C7;
+  --accent-foreground: #0D0D0D;
+
+  --border: #8367C7;
+  --input: #8367C7;
+  --ring: #B3E9C7;
 }
 
 /* Base styles */
@@ -105,3 +105,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Avatar trigger ring animation */
+@keyframes avatar-trigger-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.avatar-trigger[data-state="open"]::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--secondary-foreground) 50%, transparent) 80deg,
+    transparent 180deg,
+    color-mix(in srgb, var(--secondary-foreground) 30%, transparent) 300deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: avatar-trigger-ring-spin 1s linear infinite;
+}
+
+.font-display {
+  font-family: var(--font-geist-sans), sans-serif;
+} 

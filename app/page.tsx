@@ -10,7 +10,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-32">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-black mb-6 text-6xl font-bold">
+            <h1 className="font-display text-black mb-6 text-6xl font-bold">
               Track Every Opportunity <br />
               Stay Ahead
             </h1>
@@ -42,7 +42,7 @@ export default function Home() {
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <Briefcase className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mb-3 text-2xl font-semibold text-black">
+                <h3 className="font-display mb-3 text-2xl font-semibold text-black">
                   Organize Applications
                 </h3>
                 <p className="text-muted-foreground">
@@ -56,7 +56,7 @@ export default function Home() {
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <TrendingUp className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mb-3 text-2xl font-semibold text-black">
+                <h3 className="font-display mb-3 text-2xl font-semibold text-black">
                   Track Progress
                 </h3>
                 <p className="text-muted-foreground">
@@ -70,7 +70,7 @@ export default function Home() {
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <CheckCircle2 className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mb-3 text-2xl font-semibold text-black">
+                <h3 className="font-display mb-3 text-2xl font-semibold text-black">
                   Stay Fully Organized
                 </h3>
                 <p className="text-muted-foreground">
