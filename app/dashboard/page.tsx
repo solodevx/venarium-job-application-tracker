@@ -37,10 +37,10 @@ async function DashboardPage() {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-8 py-8">
         <div className="mb-6">
-          <h1 className="font-display text-2xl font-bold text-black">
-            Welcome back, <span className="font-cursive text-primary text-4xl">{session?.user.name}!</span>
+          <h1 className="font-display text-2xl font-semibold text-black">
+            Welcome back, <span className="font-cursive text-primary text-3xl lowercase">{session?.user.name}.</span>
           </h1>
-          <p className="font-display text-xl font-medium text-gray-800">
+          <p className="font-display text-md text-gray-600">
             Career Pipeline
           </p>
         </div>

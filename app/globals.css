@@ -41,58 +41,58 @@
 :root {
   --radius: 0.625rem;
 
-  --background: #f0fff1;
-  --foreground: #5603ad;
+  --background: #F3EFF5;
+  --foreground: #0D0A0B;
 
-  --card: #f0fff1;
-  --card-foreground: #5603ad;
+  --card: #ffffff;
+  --card-foreground: #0D0A0B;
 
-  --popover: #f0fff1;
-  --popover-foreground: #5603ad;
+  --popover: #ffffff;
+  --popover-foreground: #0D0A0B;
 
-  --primary: #5603ad;
-  --primary-foreground: #f0fff1;
+  --primary: #5603AD;
+  --primary-foreground: #F3EFF5;
 
-  --secondary: #8367c7;
-  --secondary-foreground: #f0fff1;
+  --secondary: #F3EFF5;
+  --secondary-foreground: #0D0A0B;
 
-  --muted: #b3e9c7;
-  --muted-foreground: #5603ad;
+  --muted: #e8e2ee;
+  --muted-foreground: #5603AD;
 
-  --accent: #b3e9c7;
-  --accent-foreground: #5603ad;
+  --accent: #72B01D;
+  --accent-foreground: #ffffff;
 
-  --border: #8367c7;
-  --input: #8367c7;
-  --ring: #5603ad;
+  --border: #e8e2ee;
+  --input: #e8e2ee;
+  --ring: #5603AD;
 }
 
 /* 🌙 Dark Mode — placeholder, to be designed */
 .dark {
-  --background: #0d0d0d;
-  --foreground: #f0fff1;
+  --background: #0D0A0B;
+  --foreground: #F3EFF5;
 
-  --card: #1a1a2e;
-  --card-foreground: #f0fff1;
+  --card: #1a1a1a;
+  --card-foreground: #F3EFF5;
 
-  --popover: #1a1a2e;
-  --popover-foreground: #f0fff1;
+  --popover: #1a1a1a;
+  --popover-foreground: #F3EFF5;
 
-  --primary: #8367c7;
-  --primary-foreground: #f0fff1;
+  --primary: #5603AD;
+  --primary-foreground: #F3EFF5;
 
-  --secondary: #5603ad;
-  --secondary-foreground: #f0fff1;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #F3EFF5;
 
-  --muted: #b3e9c7;
-  --muted-foreground: #0d0d0d;
+  --muted: #2a2a2a;
+  --muted-foreground: #F3EFF5;
 
-  --accent: #b3e9c7;
-  --accent-foreground: #0d0d0d;
+  --accent: #72B01D;
+  --accent-foreground: #ffffff;
 
-  --border: #8367c7;
-  --input: #8367c7;
-  --ring: #b3e9c7;
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: #5603AD;
 }
 
 /* Base styles */
@@ -122,9 +122,9 @@
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    color-mix(in srgb, var(--secondary-foreground) 50%, transparent) 80deg,
+    color-mix(in srgb, var(--primary) 50%, transparent) 80deg,
     transparent 180deg,
-    color-mix(in srgb, var(--secondary-foreground) 30%, transparent) 300deg,
+    color-mix(in srgb, var(--primary) 30%, transparent) 300deg,
     transparent 360deg
   );
   -webkit-mask:
@@ -143,6 +143,10 @@
   font-family: var(--font-geist-sans), sans-serif;
 }
 
+.font-cursive {
+  font-family: var(--font-dancing-script), cursive;
+}
+
 /* Kanban scrollbar */
 .kanban-scroll::-webkit-scrollbar {
   height: 6px;
@@ -153,14 +157,10 @@
 }
 
 .kanban-scroll::-webkit-scrollbar-thumb {
-  background: #8367c7;
+  background: #5603AD;
   border-radius: 9999px;
 }
 
 .kanban-scroll::-webkit-scrollbar-thumb:hover {
-  background: #5603ad;
-}
-
-.font-cursive {
-  font-family: var(--font-dancing-script), cursive;
+  background: #72B01D;
 }
