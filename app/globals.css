@@ -41,64 +41,64 @@
 :root {
   --radius: 0.625rem;
 
-  --background: #F0FFF1;
-  --foreground: #5603AD;
+  --background: #f0fff1;
+  --foreground: #5603ad;
 
-  --card: #F0FFF1;
-  --card-foreground: #5603AD;
+  --card: #f0fff1;
+  --card-foreground: #5603ad;
 
-  --popover: #F0FFF1;
-  --popover-foreground: #5603AD;
+  --popover: #f0fff1;
+  --popover-foreground: #5603ad;
 
-  --primary: #5603AD;
-  --primary-foreground: #F0FFF1;
+  --primary: #5603ad;
+  --primary-foreground: #f0fff1;
 
-  --secondary: #8367C7;
-  --secondary-foreground: #F0FFF1;
+  --secondary: #8367c7;
+  --secondary-foreground: #f0fff1;
 
-  --muted: #B3E9C7;
-  --muted-foreground: #5603AD;
+  --muted: #b3e9c7;
+  --muted-foreground: #5603ad;
 
-  --accent: #B3E9C7;
-  --accent-foreground: #5603AD;
+  --accent: #b3e9c7;
+  --accent-foreground: #5603ad;
 
-  --border: #8367C7;
-  --input: #8367C7;
-  --ring: #5603AD;
+  --border: #8367c7;
+  --input: #8367c7;
+  --ring: #5603ad;
 }
 
 /* 🌙 Dark Mode — placeholder, to be designed */
 .dark {
-  --background: #0D0D0D;
-  --foreground: #F0FFF1;
+  --background: #0d0d0d;
+  --foreground: #f0fff1;
 
-  --card: #1A1A2E;
-  --card-foreground: #F0FFF1;
+  --card: #1a1a2e;
+  --card-foreground: #f0fff1;
 
-  --popover: #1A1A2E;
-  --popover-foreground: #F0FFF1;
+  --popover: #1a1a2e;
+  --popover-foreground: #f0fff1;
 
-  --primary: #8367C7;
-  --primary-foreground: #F0FFF1;
+  --primary: #8367c7;
+  --primary-foreground: #f0fff1;
 
-  --secondary: #5603AD;
-  --secondary-foreground: #F0FFF1;
+  --secondary: #5603ad;
+  --secondary-foreground: #f0fff1;
 
-  --muted: #B3E9C7;
-  --muted-foreground: #0D0D0D;
+  --muted: #b3e9c7;
+  --muted-foreground: #0d0d0d;
 
-  --accent: #B3E9C7;
-  --accent-foreground: #0D0D0D;
+  --accent: #b3e9c7;
+  --accent-foreground: #0d0d0d;
 
-  --border: #8367C7;
-  --input: #8367C7;
-  --ring: #B3E9C7;
+  --border: #8367c7;
+  --input: #8367c7;
+  --ring: #b3e9c7;
 }
 
 /* Base styles */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
 
   body {
@@ -127,8 +127,12 @@
     color-mix(in srgb, var(--secondary-foreground) 30%, transparent) 300deg,
     transparent 360deg
   );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -137,4 +141,26 @@
 
 .font-display {
   font-family: var(--font-geist-sans), sans-serif;
-} 
+}
+
+/* Kanban scrollbar */
+.kanban-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.kanban-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kanban-scroll::-webkit-scrollbar-thumb {
+  background: #8367c7;
+  border-radius: 9999px;
+}
+
+.kanban-scroll::-webkit-scrollbar-thumb:hover {
+  background: #5603ad;
+}
+
+.font-cursive {
+  font-family: var(--font-dancing-script), cursive;
+}
