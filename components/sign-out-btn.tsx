@@ -30,10 +30,10 @@ export default function SignOutButton({ variant = "dropdown" }: { variant?: "dro
 
   return (
     <DropdownMenuItem
-      className="rounded-none text-white bg-[#DB5461] focus:bg-red-500 focus:text-white transition-all duration-200"
+      className="rounded-none text-white bg-[#DB5461] focus:bg-red-500 focus:text-white transition-all duration-200 justify-end"
       onClick={handleSignOut}
     >
       Log Out
-    </DropdownMenuItem>
+    </DropdownMenuItem>   
   );
 }

@@ -73,7 +73,7 @@ export default function Navbar() {
                           src={session.user.image ?? undefined}
                           alt={`${session.user.name ?? "User"} profile photo`}
                         />
-                        <AvatarFallback className="bg-primary text-white transition-all duration-200 ease-in-out group-hover/avatar-trigger:bg-accent group-hover/avatar-trigger:text-white group-data-[state=open]/avatar-trigger:bg-accent group-data-[state=open]/avatar-trigger:text-white">
+                        <AvatarFallback className="bg-primary text-white transition-all duration-200 ease-in-out group-hover/avatar-trigger:bg-white group-hover/avatar-trigger:text-primary group-data-[state=open]/avatar-trigger:bg-white group-data-[state=open]/avatar-trigger:text-primary">
                           {userInitial}
                         </AvatarFallback>
                       </Avatar>
@@ -85,11 +85,11 @@ export default function Navbar() {
                     align="end"
                   >
                     <DropdownMenuLabel className="font-normal">
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">
+                      <div className="flex flex-col space-y-1 items-end text-right">
+                        <p className="text-sm font-medium leading-none uppercase">
                           {session.user.name}
                         </p>
-                        <p className="text-xs leading-none text-muted-foreground">
+                        <p className="text-xs leading-none text-muted-foreground lowercase">
                           {session.user.email}
                         </p>
                       </div>
@@ -111,7 +111,7 @@ export default function Navbar() {
                 </Button>
               </Link>
               <Link href="/sign-up" className="hidden md:block">
-              <Button className="h-11 rounded-none bg-primary px-6 text-xs font-medium uppercase tracking-[0.12em] text-white transition hover:bg-white hover:text-primary hover:ring-2 hover:ring-primary hover:ring-offset-2">
+                <Button className="h-11 rounded-none bg-primary px-6 text-xs font-medium uppercase tracking-[0.12em] text-white transition hover:bg-white hover:text-primary hover:ring-2 hover:ring-primary hover:ring-offset-2">
                   Start for free
                 </Button>
               </Link>
@@ -123,9 +123,20 @@ export default function Navbar() {
         <div className="md:hidden border-t border-border bg-primary text-white px-4 py-6 flex flex-col gap-3 animate-in slide-in-from-top duration-300">
           {session?.user ? (
             <>
-              <div className="flex flex-col space-y-1 pb-3 border-b border-primary-foreground/30 items-end">
-                <p className="text-sm font-medium">{session.user.name}</p>
-                <p className="text-xs text-primary-foreground/70">
+              <div className="flex flex-col space-y-1 pb-3 border-b border-primary-foreground/30 items-end gap-2">
+                <Avatar className="size-12 transition-all duration-200 active:ring-2 active:ring-white">
+                  <AvatarImage
+                    src={session.user.image ?? undefined}
+                    alt={`${session.user.name ?? "User"} profile photo`}
+                  />
+                  <AvatarFallback className="bg-white text-primary text-lg font-semibold">
+                    {userInitial}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="text-sm font-medium uppercase">
+                  {session.user.name}
+                </p>
+                <p className="text-xs text-primary-foreground/70 lowercase">
                   {session.user.email}
                 </p>
               </div>

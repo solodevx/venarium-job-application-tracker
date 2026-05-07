@@ -107,7 +107,7 @@ function DroppableColumn({
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
   return (
-    <Card className="min-w-75 shrink-0 p-0 rounded-3xl bg-white shadow-md border-0 ring-0">
+    <Card className="w-full md:w-64 md:min-w-64 md:max-w-64 shrink-0 p-0 rounded-3xl bg-white shadow-md border-0 ring-0">
       <CardHeader
         className={`${config.color} text-white rounded-full px-4 py-2 mx-3 mt-3 border-0 w-[calc(100%-1.5rem)]`}
       >
@@ -360,7 +360,7 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
       onDragEnd={handleDragEnd}
     >
       <div className="space-y-4">
-        <div className="flex gap-4 overflow-x-auto pb-4 px-2 pt-2 kanban-scroll">
+        <div className="flex flex-col md:flex-row gap-4 md:overflow-x-auto pb-4 px-2 pt-2 md:kanban-scroll">
           {sortedColumns.map((column, key) => {
             const config = COLUMN_CONFIG[key] || {
               color: "bg-gray-500",

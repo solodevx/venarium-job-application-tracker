@@ -2,7 +2,15 @@
 
 import { JobApplication, Column } from "@/lib/models/models.types";
 import { Card, CardContent } from "./ui/card";
-import { Edit2, ExternalLink, MoreVertical, Plus, Trash2 } from "lucide-react";
+import {
+  Edit2,
+  ExternalLink,
+  MapPin,
+  MoreVertical,
+  Plus,
+  Trash2,
+  XCircle,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,14 +33,18 @@ import {
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 interface JobApplicationCardProps {
   job: JobApplication;
   columns: Column[];
   dragHandleProps?: React.HTMLAttributes<HTMLElement>;
   onJobRemoved?: (jobId: string) => void;
   onJobUpdated?: (jobId: string, updatedData: Partial<JobApplication>) => void;
-  onJobMoved?: (jobId: string, newColumnId: string, updatedJob: JobApplication) => void;
+  onJobMoved?: (
+    jobId: string,
+    newColumnId: string,
+    updatedJob: JobApplication,
+  ) => void;
 }
 
 export default function JobApplicationCard({
@@ -44,6 +56,16 @@ export default function JobApplicationCard({
   onJobMoved,
 }: JobApplicationCardProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isViewing, setIsViewing] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsViewing(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const [formData, setFormData] = useState({
     company: job.company,
     position: job.position,
@@ -56,72 +78,81 @@ export default function JobApplicationCard({
     description: job.description || "",
   });
 
-async function handleUpdate(e: React.FormEvent) {
-  e.preventDefault();
-  try {
-    const result = await updateJobApplication(job._id, {
-      ...formData,
-      tags: formData.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag.length > 0),
-    });
+  async function handleUpdate(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const result = await updateJobApplication(job._id, {
+        ...formData,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag.length > 0),
+      });
 
-    if (!result.error) {
-      onJobUpdated?.(job._id, result.data)
-      setIsEditing(false);
+      if (!result.error) {
+        onJobUpdated?.(job._id, result.data);
+        setIsEditing(false);
+      }
+    } catch (err) {
+      console.error("Failed to update job application: ", err);
     }
-  } catch (err) {
-    console.error("Failed to update job application: ", err);
   }
-}
 
-async function handleDelete() {
-  try {
-    const result = await deleteJobApplication(job._id);
+  async function handleDelete() {
+    try {
+      const result = await deleteJobApplication(job._id);
 
-    if (!result.error) {
-      onJobRemoved?.(job._id)
-    } else {
-      console.error("Failed to delete job application:", result.error);
+      if (!result.error) {
+        onJobRemoved?.(job._id);
+      } else {
+        console.error("Failed to delete job application:", result.error);
+      }
+    } catch (err) {
+      console.error("Failed to delete job application: ", err);
     }
-  } catch (err) {
-    console.error("Failed to delete job application: ", err);
   }
-}
 
-async function handleMove(newColumnId: string) {
-  try {
-    const result = await updateJobApplication(job._id, {
-      columnId: newColumnId,
-    });
+  async function handleMove(newColumnId: string) {
+    try {
+      const result = await updateJobApplication(job._id, {
+        columnId: newColumnId,
+      });
 
-console.log("=== MOVE RESULT ===", JSON.stringify(result))
+      console.log("=== MOVE RESULT ===", JSON.stringify(result));
 
-    if (!result.error) {
-      onJobMoved?.(job._id, newColumnId, result.data)
+      if (!result.error) {
+        onJobMoved?.(job._id, newColumnId, result.data);
+      }
+    } catch (err) {
+      console.error("Failed to move job application: ", err);
     }
-  } catch (err) {
-    console.error("Failed to move job application: ", err);
   }
-}
   return (
     <>
       <Card
-        className="cursor-pointer transition-shadow hover:shadow-lg bg-white group shadow-sm"
+        className="cursor-pointer transition-shadow hover:shadow-lg active:shadow-lg bg-white group shadow-sm"
+        onClick={() => setIsViewing(true)}
         {...dragHandleProps}
       >
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-sm mb-1">{job.position}</h3>
-              <p className="text-xs text-muted-foreground mb-2">
+              <h3 className="font-bold text-base leading-tight mb-0.5">
+                {job.position}
+              </h3>
+              <p className="text-xs font-medium text-muted-foreground mb-2">
                 {job.company}
               </p>
-              {job.description && (
-                <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
-                  {job.description}
-                </p>
+              {job.location && (
+                <div className="flex items-start gap-1 text-xs text-muted-foreground mb-2">
+                  <MapPin className="h-3 w-3 shrink-0 mt-0.5" />
+                  <span className="leading-tight">{job.location}</span>
+                </div>
+              )}
+              {job.salary && (
+                <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-accent/10 text-accent mb-2">
+                  {job.salary}
+                </span>
               )}
               {job.tags && job.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1 mb-2">
@@ -139,9 +170,10 @@ console.log("=== MOVE RESULT ===", JSON.stringify(result))
                 <a
                   href={job.jobUrl}
                   target="_blank"
-                  className="inline-flex items-center gap-1 text-xs text-primary hover:underline mt-1"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-1"
                   onClick={(e) => e.stopPropagation()}
                 >
+                  View Job
                   <ExternalLink className="h-3 w-3" />
                 </a>
               )}
@@ -302,6 +334,121 @@ console.log("=== MOVE RESULT ===", JSON.stringify(result))
           </form>
         </DialogContent>
       </Dialog>
+
+      {isViewing && (
+        <div className="fixed inset-0 z-50 flex justify-end">
+          <div
+            className="fixed inset-0 bg-black/40"
+            onClick={() => setIsViewing(false)}
+          />
+          <div className="relative z-10 w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+              <h2 className="font-bold text-lg text-foreground">
+                {job.position}
+              </h2>
+              <button
+                title="Close job application details"
+                onClick={() => setIsViewing(false)}
+                className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                  Company
+                </p>
+                <p className="text-sm font-medium">{job.company}</p>
+              </div>
+
+              {job.location && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                    Location
+                  </p>
+                  <p className="text-sm">{job.location}</p>
+                </div>
+              )}
+
+              {job.salary && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                    Salary
+                  </p>
+                  <p className="text-sm font-medium text-accent">
+                    {job.salary}
+                  </p>
+                </div>
+              )}
+
+              {job.description && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                    Description
+                  </p>
+                  <p className="text-sm leading-relaxed">{job.description}</p>
+                </div>
+              )}
+
+              {job.notes && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                    Notes
+                  </p>
+                  <p className="text-sm leading-relaxed">{job.notes}</p>
+                </div>
+              )}
+
+              {job.tags && job.tags.length > 0 && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                    Tags
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {job.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-700"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {job.jobUrl && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                    Link
+                  </p>
+                  <a
+                    title="View job posting"
+                    href={job.jobUrl}
+                    target="_blank"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                  >
+                    View Job
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="px-6 py-4 border-t border-border">
+              <button
+                onClick={() => setIsViewing(false)}
+                title="Close job application details"
+                className="w-full h-11 rounded-none border border-zinc-300 text-xs font-medium uppercase tracking-[0.12em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

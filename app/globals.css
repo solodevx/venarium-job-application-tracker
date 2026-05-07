@@ -41,58 +41,58 @@
 :root {
   --radius: 0.625rem;
 
-  --background: #F3EFF5;
-  --foreground: #0D0A0B;
+  --background: #f3eff5;
+  --foreground: #0d0a0b;
 
   --card: #ffffff;
-  --card-foreground: #0D0A0B;
+  --card-foreground: #0d0a0b;
 
   --popover: #ffffff;
-  --popover-foreground: #0D0A0B;
+  --popover-foreground: #0d0a0b;
 
-  --primary: #5603AD;
-  --primary-foreground: #F3EFF5;
+  --primary: #5603ad;
+  --primary-foreground: #f3eff5;
 
-  --secondary: #F3EFF5;
-  --secondary-foreground: #0D0A0B;
+  --secondary: #f3eff5;
+  --secondary-foreground: #0d0a0b;
 
   --muted: #e8e2ee;
-  --muted-foreground: #5603AD;
+  --muted-foreground: #5603ad;
 
-  --accent: #72B01D;
+  --accent: #72b01d;
   --accent-foreground: #ffffff;
 
   --border: #e8e2ee;
   --input: #e8e2ee;
-  --ring: #5603AD;
+  --ring: #5603ad;
 }
 
 /* 🌙 Dark Mode — placeholder, to be designed */
 .dark {
-  --background: #0D0A0B;
-  --foreground: #F3EFF5;
+  --background: #0d0a0b;
+  --foreground: #f3eff5;
 
   --card: #1a1a1a;
-  --card-foreground: #F3EFF5;
+  --card-foreground: #f3eff5;
 
   --popover: #1a1a1a;
-  --popover-foreground: #F3EFF5;
+  --popover-foreground: #f3eff5;
 
-  --primary: #5603AD;
-  --primary-foreground: #F3EFF5;
+  --primary: #5603ad;
+  --primary-foreground: #f3eff5;
 
   --secondary: #2a2a2a;
-  --secondary-foreground: #F3EFF5;
+  --secondary-foreground: #f3eff5;
 
   --muted: #2a2a2a;
-  --muted-foreground: #F3EFF5;
+  --muted-foreground: #f3eff5;
 
-  --accent: #72B01D;
+  --accent: #72b01d;
   --accent-foreground: #ffffff;
 
   --border: #2a2a2a;
   --input: #2a2a2a;
-  --ring: #5603AD;
+  --ring: #5603ad;
 }
 
 /* Base styles */
@@ -122,9 +122,9 @@
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    color-mix(in srgb, var(--primary) 50%, transparent) 80deg,
+    #0d0a0b 60deg,
     transparent 180deg,
-    color-mix(in srgb, var(--primary) 30%, transparent) 300deg,
+    #0d0a0b 300deg,
     transparent 360deg
   );
   -webkit-mask:
@@ -157,10 +157,10 @@
 }
 
 .kanban-scroll::-webkit-scrollbar-thumb {
-  background: #5603AD;
+  background: #5603ad;
   border-radius: 9999px;
 }
 
 .kanban-scroll::-webkit-scrollbar-thumb:hover {
-  background: #72B01D;
+  background: #72b01d;
 }
