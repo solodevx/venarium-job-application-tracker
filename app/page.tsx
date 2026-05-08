@@ -5,16 +5,16 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col">
       <main className="flex-1">
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-32">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="font-display text-black mb-6 text-6xl font-bold">
+            <h1 className="font-display text-black mb-6 text-4xl md:text-6xl font-bold">
               Track Every Opportunity <br />
               Stay Ahead
             </h1>
-            <p className="text-muted-foreground mb-10 text-xl">
+            <p className="text-muted-foreground mb-10 text-base md:text-xl">
               Track applications, manage progress, and never lose sight of an
               opportunity again-all in one simple dashboard.
             </p>
@@ -34,11 +34,39 @@ export default function Home() {
         {/* Hero Images Section with Tabs */}
         <ImageTabs />
 
+        {/* Stats Bar */}
+        <section className="py-8 border-y">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 text-center">
+              <div>
+                <p className="text-3xl font-bold text-primary">500+</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest">
+                  Job Seekers
+                </p>
+              </div>
+              <div className="hidden md:block w-px h-10 bg-border" />
+              <div>
+                <p className="text-3xl font-bold text-primary">10,000+</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest">
+                  Applications Tracked
+                </p>
+              </div>
+              <div className="hidden md:block w-px h-10 bg-border" />
+              <div>
+                <p className="text-3xl font-bold text-primary">5</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest">
+                  Pipeline Stages
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Features Section */}
         <section className="border-t bg-white py-24">
           <div className="container mx-auto px-4">
-            <div className="grid gap-12 md:grid-cols-3">
-              <div className="flex flex-col">
+            <div className="grid gap-6 md:grid-cols-3">
+              <div className="flex flex-col bg-white rounded-2xl p-6 shadow-md">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <Briefcase className="h-6 w-6 text-primary" />
                 </div>
@@ -52,7 +80,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col bg-white rounded-2xl p-6 shadow-md">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <TrendingUp className="h-6 w-6 text-primary" />
                 </div>
@@ -66,7 +94,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col bg-white rounded-2xl p-6 shadow-md">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <CheckCircle2 className="h-6 w-6 text-primary" />
                 </div>
