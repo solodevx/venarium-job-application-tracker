@@ -6,7 +6,6 @@ import {
   Calendar,
   CheckCircle2,
   Mic,
-  MoreHorizontal,
   MoreVertical,
   Trash2,
   XCircle,
@@ -114,8 +113,11 @@ function DroppableColumn({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {config.icon}
-            <CardTitle className="text-white text-base font-semibold">
+            <CardTitle className="text-white text-base font-semibold flex items-center gap-2">
               {column.name}
+              <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-black/10 text-white text-xs font-bold border-2 border-white">
+                {column.jobApplications?.length ?? 0}
+              </span>
             </CardTitle>
           </div>
           <DropdownMenu>
@@ -221,6 +223,7 @@ function SortableJobCard({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);

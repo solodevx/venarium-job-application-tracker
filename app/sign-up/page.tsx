@@ -1,44 +1,27 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { signUp } from "@/lib/auth/auth-client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signUp } from "@/lib/auth/auth-client";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Image from "next/image";
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
     setError("");
     setLoading(true);
-
     try {
-      const result = await signUp.email({
-        name,
-        email,
-        password,
-      });
-
+      const result = await signUp.email({ name, email, password });
       if (result.error) {
         setError(result.error.message ?? "Failed to sign up");
       } else {
@@ -53,25 +36,24 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-white p-4">
-      <Card className="w-full max-w-md border-gray-200 shadow-lg">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-black">
-            Sign Up
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            Create an account to start tracking your job applications
-          </CardDescription>
-        </CardHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <CardContent className="space-y-4">
+    <div className="flex min-h-[calc(100vh-4rem)]">
+      {/* Left — Form 65% */}
+      <div className="flex w-full md:w-[65%] flex-col justify-center px-8 py-12 md:px-16">
+        <div className="mx-auto w-full max-w-sm">
+          <div className="mb-8">
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Venarium</p>
+            <h1 className="font-display text-3xl font-bold text-foreground mb-2">Create an account.</h1>
+            <p className="text-sm text-muted-foreground">Start tracking your job applications today.</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              <div className="rounded-none bg-destructive/10 border-l-2 border-destructive p-3 text-sm text-destructive">
                 {error}
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-gray-700">
+              <Label htmlFor="name" className="text-xs uppercase tracking-widest text-muted-foreground">
                 Name
               </Label>
               <Input
@@ -81,11 +63,11 @@ export default function SignUp() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="border-gray-300 focus:border-primary focus:ring-primary"
+                className="rounded-none border-border focus:border-primary h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700">
+              <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">
                 Email
               </Label>
               <Input
@@ -95,11 +77,11 @@ export default function SignUp() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="border-gray-300 focus:border-primary focus:ring-primary"
+                className="rounded-none border-border focus:border-primary h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-700">
+              <Label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">
                 Password
               </Label>
               <Input
@@ -109,30 +91,37 @@ export default function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className="border-gray-300 focus:border-primary focus:ring-primary"
+                className="rounded-none border-border focus:border-primary h-11"
               />
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button
+
+            <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90"
               disabled={loading}
+              className="w-full h-11 bg-primary text-primary-foreground text-xs font-medium uppercase tracking-[0.12em] transition hover:bg-foreground hover:text-background disabled:opacity-50"
             >
-              {loading ? "Creating account..." : "Sign Up"}
-            </Button>
-            <p className="text-center text-sm text-gray-600">
+              {loading ? "Creating account..." : "Start for free"}
+            </button>
+
+            <p className="text-center text-sm text-muted-foreground pt-2">
               Already have an account?{" "}
-              <Link
-                href="/sign-in"
-                className="font-medium text-primary hover:underline"
-              >
+              <Link href="/sign-in" className="font-medium text-primary hover:underline">
                 Sign in
               </Link>
             </p>
-          </CardFooter>
-        </form>
-      </Card>
+          </form>
+        </div>
+      </div>
+
+      {/* Right — Image 35% */}
+      <div className="hidden md:block md:w-[35%] relative">
+        <Image
+          src="/images/sign-up-hero.jpg"
+          alt="Sign up visual"
+          fill
+          className="object-cover"
+        />
+      </div>
     </div>
   );
 }
