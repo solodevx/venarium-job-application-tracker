@@ -5,9 +5,8 @@ import Image from "next/image";
 
 const slides = [
   { src: "/images/hero-1.jpg", alt: "Venarium dashboard view 1" },
-  { src: "/images/hero-2.png", alt: "Venarium dashboard view 2" },
-  { src: "/images/hero-3.png", alt: "Venarium dashboard view 3" },
-  { src: "/images/hero-4.jpg", alt: "Venarium dashboard view 4" },
+  { src: "/images/hero-2.jpg", alt: "Venarium dashboard view 2" },
+  { src: "/images/hero-3.jpg", alt: "Venarium dashboard view 3" },
 ];
 
 export default function HeroSlideshow() {

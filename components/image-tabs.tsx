@@ -21,7 +21,7 @@ export default function ImageTabs() {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              Organize Applications
+              Kanban Boards
             </Button>
             <Button
               onClick={() => setActiveTab("hired")}
@@ -31,7 +31,7 @@ export default function ImageTabs() {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              Get Hired
+              Track Progress
             </Button>
             <Button
               onClick={() => setActiveTab("boards")}
@@ -41,13 +41,13 @@ export default function ImageTabs() {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              Manage Boards
+              Stay Organized
             </Button>
           </div>
           <div className="relative mx-auto max-w-5xl overflow-hidden rounded-lg border border-gray-200 shadow-xl">
             {activeTab === "organize" && (
               <Image
-                src="/hero-images/hero1.png"
+                src="/images/tab-1.png"
                 alt="Organize Applications"
                 width={1200}
                 height={800}
@@ -56,7 +56,7 @@ export default function ImageTabs() {
 
             {activeTab === "hired" && (
               <Image
-                src="/hero-images/hero2.png"
+                src="/images/tab-2.png"
                 alt="Organize Applications"
                 width={1200}
                 height={800}
@@ -65,7 +65,7 @@ export default function ImageTabs() {
 
             {activeTab === "boards" && (
               <Image
-                src="/hero-images/hero3.png"
+                src="/images/tab-3.png"
                 alt="Organize Applications"
                 width={1200}
                 height={800}

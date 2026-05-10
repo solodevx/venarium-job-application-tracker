@@ -21,13 +21,12 @@ export default function Home() {
                 Track Every Opportunity <br />
                 <span className="font-cursive text-primary">Stay Ahead.</span>
               </h1>
-              <p className="text-muted-foreground mb-10 text-base md:text-lg leading-relaxed">
-                Track applications, manage progress, and never lose sight of an
-                opportunity again — all in one simple dashboard.
+              <p className="mb-10 text-base md:text-lg leading-relaxed text-gray-700">
+                Keep track of applications, interviews, and offers in one focused workspace built for modern job seekers.
               </p>
               <HeroCta />
-              <p className="text-xs text-muted-foreground mt-4">
-                Free forever. No credit card required.
+              <p className="text-xs mt-4">
+                Free forever. No credit card. No clutter.
               </p>
             </div>
           </div>
@@ -94,12 +93,11 @@ export default function Home() {
                   <Briefcase className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-display mb-3 text-xl font-semibold text-foreground">
-                  Organize Applications
+                  Organize Your Workflow
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Create personalized boards and columns to manage every stage
-                  of your job applications — from initial research to submitted
-                  applications.
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Create custom boards and columns for every stage of your 
+                  job search — from saved opportunities to final offers.
                 </p>
               </div>
 
@@ -110,7 +108,7 @@ export default function Home() {
                 <h3 className="font-display mb-3 text-xl font-semibold text-foreground">
                   Track Progress
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-gray-700 text-sm leading-relaxed">
                   Monitor your application status from &quot;Applied&quot; to
                   &quot;Interview&quot; to &quot;Offer&quot; with visual Kanban
                   boards that make it easy to see where each application stands.
@@ -124,7 +122,7 @@ export default function Home() {
                 <h3 className="font-display mb-3 text-xl font-semibold text-foreground">
                   Stay Fully Organized
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-gray-700 text-sm leading-relaxed">
                   Keep all your job search information in one central hub —
                   never lose track of an opportunity or important detail again.
                 </p>

@@ -9,6 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { useTheme } from "./theme-provider";
+import { Moon, Sun } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import SignOutButton from "./sign-out-btn";
 import { useSession } from "@/lib/auth/auth-client";
@@ -19,8 +21,9 @@ export default function Navbar() {
   const { data: session } = useSession();
   const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "U";
   const [menuOpen, setMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   return (
-    <nav className="border-b border-gray-200 bg-white">
+    <nav className="border-b border-border bg-background transition-colors duration-300">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link
           href="/"
@@ -35,6 +38,17 @@ export default function Navbar() {
           VENARIUM
         </Link>
         <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="relative shrink-0 rounded-full p-2 transition-all duration-200 ease-in-out hover:bg-muted"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4 text-foreground" />
+            ) : (
+              <Moon className="h-4 w-4 text-foreground" />
+            )}
+          </button>
           <button
             className="flex md:hidden flex-col justify-center items-center w-8 h-8 gap-1.5 relative"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -55,7 +69,7 @@ export default function Navbar() {
               <Link href="/dashboard" className="hidden md:block">
                 <Button
                   variant="ghost"
-                  className="h-11 rounded-none border border-zinc-300 px-5 text-xs font-medium uppercase tracking-[0.12em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background"
+                  className="h-11 rounded-none border border-border px-5 text-xs font-medium uppercase tracking-[0.12em] text-foreground transition hover:bg-muted hover:text-foreground hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background"
                 >
                   Dashboard
                 </Button>
@@ -105,7 +119,7 @@ export default function Navbar() {
               <Link href="/sign-in" className="hidden md:block">
                 <Button
                   variant="ghost"
-                  className="h-11 rounded-none border border-zinc-300 px-5 text-xs font-medium uppercase tracking-[0.12em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background"
+                  className="h-11 rounded-none border border-border px-5 text-xs font-medium uppercase tracking-[0.12em] text-foreground transition hover:bg-muted hover:text-foreground hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background"
                 >
                   Log In
                 </Button>

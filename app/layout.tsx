@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { ThemeProvider } from "@/components/theme-provider";
+import ThemeToggleFloat from "@/components/theme-toggle-float";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,9 +45,12 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${inter.variable} ${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <ThemeProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <ThemeToggleFloat />
+        </ThemeProvider>
       </body>
     </html>
   );
