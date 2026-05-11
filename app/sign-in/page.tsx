@@ -26,7 +26,7 @@ export default function SignIn() {
       } else {
         router.push("/dashboard");
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("An unexpected error occurred");
     } finally {
@@ -40,9 +40,15 @@ export default function SignIn() {
       <div className="flex w-full md:w-[65%] flex-col justify-center px-8 py-12 md:px-16">
         <div className="mx-auto w-full max-w-sm">
           <div className="mb-8">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Venarium</p>
-            <h1 className="font-display text-3xl font-bold text-foreground mb-2">Welcome back.</h1>
-            <p className="text-sm text-muted-foreground">Enter your credentials to access your account.</p>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+              Venarium
+            </p>
+            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
+              Welcome back.
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Enter your credentials to access your account.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -52,7 +58,10 @@ export default function SignIn() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="email"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Email
               </Label>
               <Input
@@ -66,7 +75,10 @@ export default function SignIn() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="password"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Password
               </Label>
               <Input
@@ -90,7 +102,10 @@ export default function SignIn() {
 
             <p className="text-center text-sm text-muted-foreground pt-2">
               Don&apos;t have an account?{" "}
-              <Link href="/sign-up" className="font-medium text-primary hover:underline">
+              <Link
+                href="/sign-up"
+                className="font-medium text-primary hover:underline"
+              >
                 Sign up
               </Link>
             </p>

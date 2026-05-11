@@ -27,7 +27,7 @@ export default function SignUp() {
       } else {
         router.push("/dashboard");
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("An unexpected error occurred");
     } finally {
@@ -41,9 +41,15 @@ export default function SignUp() {
       <div className="flex w-full md:w-[65%] flex-col justify-center px-8 py-12 md:px-16">
         <div className="mx-auto w-full max-w-sm">
           <div className="mb-8">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Venarium</p>
-            <h1 className="font-display text-3xl font-bold text-foreground mb-2">Create an account.</h1>
-            <p className="text-sm text-muted-foreground">Start tracking your job applications today.</p>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+              Venarium
+            </p>
+            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
+              Create an account.
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Start tracking your job applications today.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -53,7 +59,10 @@ export default function SignUp() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="name"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Name
               </Label>
               <Input
@@ -67,7 +76,10 @@ export default function SignUp() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="email"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Email
               </Label>
               <Input
@@ -81,7 +93,10 @@ export default function SignUp() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="password"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Password
               </Label>
               <Input
@@ -105,7 +120,10 @@ export default function SignUp() {
 
             <p className="text-center text-sm text-muted-foreground pt-2">
               Already have an account?{" "}
-              <Link href="/sign-in" className="font-medium text-primary hover:underline">
+              <Link
+                href="/sign-in"
+                className="font-medium text-primary hover:underline"
+              >
                 Sign in
               </Link>
             </p>

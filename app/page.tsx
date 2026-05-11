@@ -17,15 +17,16 @@ export default function Home() {
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
                 Job Application Tracker
               </p>
-              <h1 className="font-display text-black mb-6 text-4xl md:text-5xl font-bold leading-tight">
+              <h1 className="font-display text-foreground mb-6 text-4xl md:text-5xl font-bold leading-tight">
                 Track Every Opportunity <br />
                 <span className="font-cursive text-primary">Stay Ahead.</span>
               </h1>
-              <p className="mb-10 text-base md:text-lg leading-relaxed text-gray-700">
-                Keep track of applications, interviews, and offers in one focused workspace built for modern job seekers.
+              <p className="mb-10 text-base md:text-lg leading-relaxed text-muted-foreground">
+                Keep track of applications, interviews, and offers in one
+                focused workspace built for modern job seekers.
               </p>
               <HeroCta />
-              <p className="text-xs mt-4">
+              <p className="text-xs mt-4 text-muted-foreground">
                 Free forever. No credit card. No clutter.
               </p>
             </div>
@@ -88,41 +89,41 @@ export default function Home() {
               </h2>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
-              <div className="flex flex-col bg-white rounded-2xl p-6 shadow-md">
+              <div className="flex flex-col bg-card rounded-2xl p-6 shadow-md">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <Briefcase className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-display mb-3 text-xl font-semibold text-foreground">
                   Organize Your Workflow
                 </h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  Create custom boards and columns for every stage of your 
-                  job search — from saved opportunities to final offers.
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Create custom boards and columns for every stage of your job
+                  search — from saved opportunities to final offers.
                 </p>
               </div>
 
-              <div className="flex flex-col bg-white rounded-2xl p-6 shadow-md">
+              <div className="flex flex-col bg-card rounded-2xl p-6 shadow-md">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <TrendingUp className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-display mb-3 text-xl font-semibold text-foreground">
                   Track Progress
                 </h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   Monitor your application status from &quot;Applied&quot; to
                   &quot;Interview&quot; to &quot;Offer&quot; with visual Kanban
                   boards that make it easy to see where each application stands.
                 </p>
               </div>
 
-              <div className="flex flex-col bg-white rounded-2xl p-6 shadow-md">
+              <div className="flex flex-col bg-card rounded-2xl p-6 shadow-md">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <CheckCircle2 className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-display mb-3 text-xl font-semibold text-foreground">
                   Stay Fully Organized
                 </h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   Keep all your job search information in one central hub —
                   never lose track of an opportunity or important detail again.
                 </p>

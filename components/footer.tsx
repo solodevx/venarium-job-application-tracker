@@ -239,7 +239,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-background/10">
         <div className="container mx-auto px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-background/10">
+          <p className="text-xs text-background/40">
             © Tw3nty Tw3nty 9ix — Designed by{" "}
             <a
               href="https://github.com/solodevx/"

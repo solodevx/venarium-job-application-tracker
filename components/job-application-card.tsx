@@ -7,7 +7,6 @@ import {
   ExternalLink,
   MapPin,
   MoreVertical,
-  Plus,
   Trash2,
   XCircle,
 } from "lucide-react";
@@ -130,7 +129,7 @@ export default function JobApplicationCard({
   return (
     <>
       <Card
-        className="cursor-pointer transition-shadow hover:shadow-lg active:shadow-lg bg-white group shadow-sm"
+        className="cursor-pointer transition-shadow hover:shadow-lg active:shadow-lg bg-card group shadow-sm"
         onClick={() => setIsViewing(true)}
         {...dragHandleProps}
       >
@@ -341,7 +340,7 @@ export default function JobApplicationCard({
             className="fixed inset-0 bg-black/40"
             onClick={() => setIsViewing(false)}
           />
-          <div className="relative z-10 w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+          <div className="relative z-10 w-full max-w-md bg-card h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="flex items-center justify-between px-6 py-4 border-b border-border">
               <h2 className="font-bold text-lg text-foreground">
                 {job.position}
@@ -410,7 +409,7 @@ export default function JobApplicationCard({
                     {job.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-700"
+                        className="px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary"
                       >
                         {tag}
                       </span>
@@ -441,7 +440,7 @@ export default function JobApplicationCard({
               <button
                 onClick={() => setIsViewing(false)}
                 title="Close job application details"
-                className="w-full h-11 rounded-none border border-zinc-300 text-xs font-medium uppercase tracking-[0.12em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black"
+                className="w-full h-11 rounded-none border border-border text-xs font-medium uppercase tracking-[0.12em] text-foreground transition hover:bg-muted hover:text-foreground"
               >
                 Close
               </button>

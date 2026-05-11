@@ -41,58 +41,58 @@
 :root {
   --radius: 0.625rem;
 
-  --background: #f3eff5;
-  --foreground: #0d0a0b;
+  --background: #F3EFF5;
+  --foreground: #0D0A0B;
 
   --card: #ffffff;
-  --card-foreground: #0d0a0b;
+  --card-foreground: #0D0A0B;
 
   --popover: #ffffff;
-  --popover-foreground: #0d0a0b;
+  --popover-foreground: #0D0A0B;
 
-  --primary: #5603ad;
-  --primary-foreground: #f3eff5;
+  --primary: #5603AD;
+  --primary-foreground: #ffffff;
 
-  --secondary: #f3eff5;
-  --secondary-foreground: #0d0a0b;
+  --secondary: #F3EFF5;
+  --secondary-foreground: #0D0A0B;
 
-  --muted: #e8e2ee;
-  --muted-foreground: #5603ad;
+  --muted: #E8E2EE;
+  --muted-foreground: #6B6B6B;
 
-  --accent: #72b01d;
+  --accent: #72B01D;
   --accent-foreground: #ffffff;
 
-  --border: #e8e2ee;
-  --input: #e8e2ee;
-  --ring: #5603ad;
+  --border: #E8E2EE;
+  --input: #E8E2EE;
+  --ring: #5603AD;
 }
 
-/* 🌙 Dark Mode — placeholder, to be designed */
+/* 🌙 Dark Mode */
 .dark {
-  --background: #0d0a0b;
-  --foreground: #f3eff5;
+  --background: #0D0A0B;
+  --foreground: #F3EFF5;
 
-  --card: #1a1a1a;
-  --card-foreground: #f3eff5;
+  --card: #1C1520;
+  --card-foreground: #F3EFF5;
 
-  --popover: #1a1a1a;
-  --popover-foreground: #f3eff5;
+  --popover: #1C1520;
+  --popover-foreground: #F3EFF5;
 
-  --primary: #5603ad;
-  --primary-foreground: #f3eff5;
+  --primary: #8B3DFF;
+  --primary-foreground: #ffffff;
 
-  --secondary: #2a2a2a;
-  --secondary-foreground: #f3eff5;
+  --secondary: #2D2233;
+  --secondary-foreground: #F3EFF5;
 
-  --muted: #2a2a2a;
-  --muted-foreground: #f3eff5;
+  --muted: #2D2233;
+  --muted-foreground: #9A9A9A;
 
-  --accent: #72b01d;
+  --accent: #72B01D;
   --accent-foreground: #ffffff;
 
-  --border: #2a2a2a;
-  --input: #2a2a2a;
-  --ring: #5603ad;
+  --border: #3D2D4D;
+  --input: #2D2233;
+  --ring: #8B3DFF;
 }
 
 /* Base styles */
@@ -122,9 +122,9 @@
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    #0d0a0b 60deg,
+    #0D0A0B 60deg,
     transparent 180deg,
-    #0d0a0b 300deg,
+    #0D0A0B 300deg,
     transparent 360deg
   );
   -webkit-mask:
@@ -148,19 +148,19 @@
 }
 
 /* Kanban scrollbar */
+/* Option 1 — Thin Pill (refined minimal) */
 .kanban-scroll::-webkit-scrollbar {
-  height: 6px;
+  height: 4px;
 }
-
 .kanban-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .kanban-scroll::-webkit-scrollbar-thumb {
-  background: #5603ad;
+  background: #5603AD;
   border-radius: 9999px;
+  opacity: 0.4;
 }
-
 .kanban-scroll::-webkit-scrollbar-thumb:hover {
-  background: #72b01d;
+  background: #5603AD;
+  opacity: 1;
 }

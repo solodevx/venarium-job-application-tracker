@@ -2,10 +2,13 @@
 
 import { signOut } from "@/lib/auth/auth-client";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 
-export default function SignOutButton({ variant = "dropdown" }: { variant?: "dropdown" | "mobile" }) {
+export default function SignOutButton({
+  variant = "dropdown",
+}: {
+  variant?: "dropdown" | "mobile";
+}) {
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -20,7 +23,7 @@ export default function SignOutButton({ variant = "dropdown" }: { variant?: "dro
   if (variant === "mobile") {
     return (
       <button
-        className="w-full text-right px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-white bg-[#DB5461] transition-all duration-200 active:bg-red-500"
+        className="w-full text-right px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-white bg-destructive transition-all duration-200 active:bg-destructive/80"
         onClick={handleSignOut}
       >
         Log Out
@@ -30,10 +33,10 @@ export default function SignOutButton({ variant = "dropdown" }: { variant?: "dro
 
   return (
     <DropdownMenuItem
-      className="rounded-none text-white bg-[#DB5461] focus:bg-red-500 focus:text-white transition-all duration-200 justify-end"
+      className="rounded-none text-white bg-[#DB5461] focus:bg-destructive/80 focus:text-white transition-all duration-200 justify-end"
       onClick={handleSignOut}
     >
       Log Out
-    </DropdownMenuItem>   
+    </DropdownMenuItem>
   );
 }

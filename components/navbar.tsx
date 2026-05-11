@@ -21,7 +21,7 @@ export default function Navbar() {
   const { data: session } = useSession();
   const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "U";
   const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
   return (
     <nav className="border-b border-border bg-background transition-colors duration-300">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
@@ -43,11 +43,12 @@ export default function Navbar() {
             className="relative shrink-0 rounded-full p-2 transition-all duration-200 ease-in-out hover:bg-muted"
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? (
-              <Sun className="h-4 w-4 text-foreground" />
-            ) : (
-              <Moon className="h-4 w-4 text-foreground" />
-            )}
+            {mounted &&
+              (theme === "dark" ? (
+                <Sun className="h-4 w-4 text-foreground" />
+              ) : (
+                <Moon className="h-4 w-4 text-foreground" />
+              ))}
           </button>
           <button
             className="flex md:hidden flex-col justify-center items-center w-8 h-8 gap-1.5 relative"
@@ -87,7 +88,7 @@ export default function Navbar() {
                           src={session.user.image ?? undefined}
                           alt={`${session.user.name ?? "User"} profile photo`}
                         />
-                        <AvatarFallback className="bg-primary text-white transition-all duration-200 ease-in-out group-hover/avatar-trigger:bg-white group-hover/avatar-trigger:text-primary group-data-[state=open]/avatar-trigger:bg-white group-data-[state=open]/avatar-trigger:text-primary">
+                        <AvatarFallback className="bg-primary text-white transition-all duration-200 ease-in-out group-hover/avatar-trigger:bg-card group-hover/avatar-trigger:text-primary group-data-[state=open]/avatar-trigger:bg-card group-data-[state=open]/avatar-trigger:text-primary">
                           {userInitial}
                         </AvatarFallback>
                       </Avatar>
@@ -125,7 +126,7 @@ export default function Navbar() {
                 </Button>
               </Link>
               <Link href="/sign-up" className="hidden md:block">
-                <Button className="h-11 rounded-none bg-primary px-6 text-xs font-medium uppercase tracking-[0.12em] text-white transition hover:bg-white hover:text-primary hover:ring-2 hover:ring-primary hover:ring-offset-2">
+                <Button className="h-11 rounded-none bg-primary px-6 text-xs font-medium uppercase tracking-[0.12em] text-white transition hover:bg-card hover:text-primary hover:ring-2 hover:ring-primary hover:ring-offset-2">
                   Start for free
                 </Button>
               </Link>

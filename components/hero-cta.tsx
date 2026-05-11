@@ -27,7 +27,7 @@ export default function HeroCta() {
         </button>
       </Link>
       <Link href="/sign-in" className="w-full sm:w-auto">
-        <button className="w-full sm:w-auto h-11 border border-zinc-300 px-8 text-xs font-medium uppercase tracking-[0.12em] text-zinc-800 transition hover:bg-zinc-100 hover:text-black active:bg-zinc-100 active:text-black">
+        <button className="w-full sm:w-auto h-11 border border-border px-8 text-xs font-medium uppercase tracking-[0.12em] text-foreground transition hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground">
           Log In
         </button>
       </Link>

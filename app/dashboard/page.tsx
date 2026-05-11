@@ -34,18 +34,18 @@ async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-6 md:px-8 md:py-8">
         <div className="mb-6">
-          <h1 className="font-display text-xl md:text-2xl font-semibold text-black">
+          <h1 className="font-display text-xl md:text-2xl font-semibold text-foreground">
             Welcome back,{" "}
             <span className="font-cursive text-primary text-2xl md:text-3xl lowercase">
               {session?.user.name}.
             </span>
           </h1>
-          <p className="font-display text-md text-gray-600">Career Pipeline</p>
+          <p className="font-display text-md text-muted-foreground">Career Pipeline</p>
         </div>
-        <div className="shadow-[-4px_0px_12px_-4px_rgba(0,0,0,0.1),4px_0px_12px_-4px_rgba(0,0,0,0.1)] rounded-4xl px-10 pt-6 pb-6 bg-white border-0">
+        <div className="shadow-[-4px_0px_12px_-4px_rgba(0,0,0,0.1),4px_0px_12px_-4px_rgba(0,0,0,0.1)] rounded-4xl px-4 md:px-10 pt-6 pb-6 bg-card border-0">
           <KanbanBoard board={board} userId={session.user.id} />
         </div>
       </div>
