@@ -17,6 +17,7 @@ import SignOutButton from "./sign-out-btn";
 import { useSession } from "@/lib/auth/auth-client";
 import Image from "next/image";
 import { useState } from "react";
+import DeleteAccountButton from "./delete-account-button";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -117,6 +118,8 @@ export default function Navbar() {
                     >
                       <Link href="/settings">Settings</Link>
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator className="mx-auto w-[95%]" />
+                    <DeleteAccountButton variant="dropdown" />
                     <DropdownMenuSeparator className="mx-auto w-[95%]" />
                     <SignOutButton />
                   </DropdownMenuContent>

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useState, useRef } from "react";
 import { Camera } from "lucide-react";
 import { useRouter } from "next/navigation";
+import DeleteAccountButton from "@/components/delete-account-button";
 
 export default function SettingsPage() {
   const { data: session, refetch } = useSession();
@@ -90,7 +91,11 @@ export default function SettingsPage() {
         setPasswordError(result.error.message ?? "Failed to change password");
       } else {
         setPasswordSuccess("Password changed successfully!");
-        setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+        setPasswordData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
       }
     } catch {
       setPasswordError("An unexpected error occurred");
@@ -108,17 +113,26 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 md:px-8 py-12 max-w-2xl">
         <div className="mb-8">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Account</p>
-          <h1 className="font-display text-2xl font-bold text-foreground">Settings</h1>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+            Account
+          </p>
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            Settings
+          </h1>
         </div>
 
         {/* Profile Picture */}
         <div className="bg-card rounded-2xl p-6 shadow-sm mb-6">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-6">Profile Picture</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-6">
+            Profile Picture
+          </h2>
           <div className="flex items-center gap-6">
             <div className="relative">
               <Avatar className="size-20">
-                <AvatarImage src={session.user.image ?? undefined} alt={session.user.name ?? "User"} />
+                <AvatarImage
+                  src={session.user.image ?? undefined}
+                  alt={session.user.name ?? "User"}
+                />
                 <AvatarFallback className="bg-primary text-white text-2xl font-bold">
                   {userInitial}
                 </AvatarFallback>
@@ -142,18 +156,32 @@ export default function SettingsPage() {
               />
             </div>
             <div>
-              <p className="text-sm font-medium text-foreground">{session.user.name}</p>
-              <p className="text-xs text-muted-foreground">{session.user.email}</p>
-              {avatarLoading && <p className="text-xs text-muted-foreground mt-1">Uploading...</p>}
-              {avatarError && <p className="text-xs text-destructive mt-1">{avatarError}</p>}
-              {avatarSuccess && <p className="text-xs text-accent mt-1">{avatarSuccess}</p>}
+              <p className="text-sm font-medium text-foreground">
+                {session.user.name}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {session.user.email}
+              </p>
+              {avatarLoading && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Uploading...
+                </p>
+              )}
+              {avatarError && (
+                <p className="text-xs text-destructive mt-1">{avatarError}</p>
+              )}
+              {avatarSuccess && (
+                <p className="text-xs text-accent mt-1">{avatarSuccess}</p>
+              )}
             </div>
           </div>
         </div>
 
         {/* Change Password */}
         <div className="bg-card rounded-2xl p-6 shadow-sm">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-6">Change Password</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-6">
+            Change Password
+          </h2>
           <form onSubmit={handlePasswordChange} className="space-y-4">
             {passwordError && (
               <div className="rounded-none bg-destructive/10 border-l-2 border-destructive p-3 text-sm text-destructive">
@@ -166,41 +194,65 @@ export default function SettingsPage() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="currentPassword" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="currentPassword"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Current Password
               </Label>
               <Input
                 id="currentPassword"
                 type="password"
                 value={passwordData.currentPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    currentPassword: e.target.value,
+                  })
+                }
                 required
                 className="rounded-none border-border focus:border-primary h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="newPassword" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="newPassword"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 New Password
               </Label>
               <Input
                 id="newPassword"
                 type="password"
                 value={passwordData.newPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    newPassword: e.target.value,
+                  })
+                }
                 required
                 minLength={8}
                 className="rounded-none border-border focus:border-primary h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-xs uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="confirmPassword"
+                className="text-xs uppercase tracking-widest text-muted-foreground"
+              >
                 Confirm New Password
               </Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 value={passwordData.confirmPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    confirmPassword: e.target.value,
+                  })
+                }
                 required
                 minLength={8}
                 className="rounded-none border-border focus:border-primary h-11"
@@ -214,6 +266,18 @@ export default function SettingsPage() {
               {passwordLoading ? "Updating..." : "Update Password"}
             </button>
           </form>
+        </div>
+
+        {/* Danger Zone */}
+        <div className="bg-card rounded-2xl p-6 shadow-sm mt-6 border border-destructive/30">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-destructive mb-2">
+            Danger Zone
+          </h2>
+          <p className="text-xs text-muted-foreground mb-6">
+            Once you delete your account all your data will be permanently
+            removed. This cannot be undone.
+          </p>
+          <DeleteAccountButton variant="settings" />
         </div>
       </div>
     </div>

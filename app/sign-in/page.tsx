@@ -60,12 +60,12 @@ export default function SignIn() {
             )}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label
+                <label
                   htmlFor="password"
-                  className="text-xs uppercase tracking-widest text-muted-foreground"
+                  className="text-xs uppercase tracking-widest text-muted-foreground font-medium"
                 >
                   Password
-                </Label>
+                </label>
                 <Link
                   href="/forgot-password"
                   className="text-xs text-primary hover:underline"
