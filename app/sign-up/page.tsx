@@ -23,10 +23,10 @@ export default function SignUp() {
     try {
       const result = await signUp.email({ name, email, password });
       if (result.error) {
-        setError(result.error.message ?? "Failed to sign up");
-      } else {
-        router.push("/dashboard");
-      }
+  setError(result.error.message ?? "Failed to sign up");
+} else {
+  router.push("/verify-email?email=" + encodeURIComponent(email));
+}
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("An unexpected error occurred");

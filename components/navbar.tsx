@@ -8,6 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuItem,
 } from "./ui/dropdown-menu";
 import { useTheme } from "./theme-provider";
 import { Moon, Sun } from "lucide-react";
@@ -110,6 +111,13 @@ export default function Navbar() {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator className="mx-auto w-[95%]" />
+                    <DropdownMenuItem
+                      asChild
+                      className="rounded-none justify-end"
+                    >
+                      <Link href="/settings">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="mx-auto w-[95%]" />
                     <SignOutButton />
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -161,6 +169,14 @@ export default function Navbar() {
                   className="w-full justify-end h-11 rounded-none border border-primary-foreground px-5 text-xs font-medium uppercase tracking-[0.12em] text-primary-foreground transition active:bg-primary-foreground active:text-primary"
                 >
                   Dashboard
+                </Button>
+              </Link>
+              <Link href="/settings" onClick={() => setMenuOpen(false)}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-end h-11 rounded-none border border-primary-foreground px-5 text-xs font-medium uppercase tracking-[0.12em] text-primary-foreground transition active:bg-primary-foreground active:text-primary"
+                >
+                  Settings
                 </Button>
               </Link>
               <SignOutButton variant="mobile" />
