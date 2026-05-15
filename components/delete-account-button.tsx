@@ -21,7 +21,7 @@ export default function DeleteAccountButton({ variant = "settings" }: { variant?
         setConfirming(false);
         return;
       }
-      router.push("/sign-in");
+      window.location.href = "/";
     } catch {
       setError("An unexpected error occurred");
       setLoading(false);

@@ -21,7 +21,12 @@ export default function SignUp() {
     setError("");
     setLoading(true);
     try {
-      const result = await signUp.email({ name, email, password });
+      const result = await signUp.email({ 
+  name, 
+  email, 
+  password,
+  callbackURL: "/dashboard",
+});
       if (result.error) {
   setError(result.error.message ?? "Failed to sign up");
 } else {

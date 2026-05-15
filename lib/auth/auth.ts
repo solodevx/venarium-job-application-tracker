@@ -4,9 +4,21 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
 import connectDB from "../db";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
+  pool: true,
+});
 
 const mongooseInstance = await connectDB();
 const client = mongooseInstance.connection.getClient();
@@ -30,38 +42,49 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
-      await resend.emails.send({
-        from: "Venarium <onboarding@resend.dev>",
-        to: user.email,
-        subject: "Reset your Venarium password",
-        html: `
-          <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px;">
-            <h1 style="font-size: 24px; font-weight: bold; color: #0D0A0B; margin-bottom: 8px;">Reset your password</h1>
-            <p style="color: #6B6B6B; margin-bottom: 24px;">Click the button below to reset your Venarium password. This link expires in 1 hour.</p>
-            <a href="${url}" style="display: inline-block; background: #5603AD; color: white; padding: 12px 24px; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Reset Password</a>
-            <p style="color: #6B6B6B; font-size: 12px; margin-top: 24px;">If you didn't request this, you can safely ignore this email.</p>
-          </div>
-        `,
-      });
+      try {
+        const info = await transporter.sendMail({
+          from: `"Venarium" <${process.env.GMAIL_USER}>`,
+          to: user.email,
+          subject: "Reset your Venarium password",
+          html: `
+            <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px;">
+              <h1 style="font-size: 24px; font-weight: bold; color: #0D0A0B; margin-bottom: 8px;">Reset your password</h1>
+              <p style="color: #6B6B6B; margin-bottom: 24px;">Click the button below to reset your Venarium password. This link expires in 1 hour.</p>
+              <a href="${url}" style="display: inline-block; background: #5603AD; color: white; padding: 12px 24px; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Reset Password</a>
+              <p style="color: #6B6B6B; font-size: 12px; margin-top: 24px;">If you didn't request this, you can safely ignore this email.</p>
+            </div>
+          `,
+        });
+        console.log("Reset email sent:", info.response);
+      } catch (err) {
+        console.error("Reset email error:", err);
+      }
     },
   },
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await resend.emails.send({
-        from: "Venarium <onboarding@resend.dev>",
-        to: user.email,
-        subject: "Verify your Venarium email",
-        html: `
-          <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px;">
-            <h1 style="font-size: 24px; font-weight: bold; color: #0D0A0B; margin-bottom: 8px;">Verify your email</h1>
-            <p style="color: #6B6B6B; margin-bottom: 24px;">Thanks for signing up for Venarium! Click the button below to verify your email address.</p>
-            <a href="${url}" style="display: inline-block; background: #5603AD; color: white; padding: 12px 24px; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Verify Email</a>
-            <p style="color: #6B6B6B; font-size: 12px; margin-top: 24px;">If you didn't create an account, you can safely ignore this email.</p>
-          </div>
-        `,
-      });
+      console.log("Sending verification email to:", user.email, "URL:", url);
+      try {
+        const info = await transporter.sendMail({
+          from: `"Venarium" <${process.env.GMAIL_USER}>`,
+          to: user.email,
+          subject: "Verify your Venarium email",
+          html: `
+            <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px;">
+              <h1 style="font-size: 24px; font-weight: bold; color: #0D0A0B; margin-bottom: 8px;">Verify your email</h1>
+              <p style="color: #6B6B6B; margin-bottom: 24px;">Thanks for signing up for Venarium! Click the button below to verify your email address.</p>
+              <a href="${url}" style="display: inline-block; background: #5603AD; color: white; padding: 12px 24px; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Verify Email</a>
+              <p style="color: #6B6B6B; font-size: 12px; margin-top: 24px;">If you didn't create an account, you can safely ignore this email.</p>
+            </div>
+          `,
+        });
+        console.log("Verification email sent:", info.response);
+      } catch (err) {
+        console.error("Verification email error:", err);
+      }
     },
   },
   socialProviders: {

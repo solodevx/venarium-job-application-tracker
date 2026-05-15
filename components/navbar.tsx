@@ -119,8 +119,6 @@ export default function Navbar() {
                       <Link href="/settings">Settings</Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator className="mx-auto w-[95%]" />
-                    <DeleteAccountButton variant="dropdown" />
-                    <DropdownMenuSeparator className="mx-auto w-[95%]" />
                     <SignOutButton />
                   </DropdownMenuContent>
                 </DropdownMenu>
