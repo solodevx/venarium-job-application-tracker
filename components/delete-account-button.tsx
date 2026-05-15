@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function DeleteAccountButton({ variant = "settings" }: { variant?: "settings" | "dropdown" }) {
   const [confirming, setConfirming] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   async function handleDelete() {
     setLoading(true);
