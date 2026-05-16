@@ -189,6 +189,7 @@ export default function SignUp() {
           src="/images/sign-up-hero.jpg"
           alt="Sign up visual"
           fill
+          sizes="35vw"
           className="object-cover"
         />
       </div>

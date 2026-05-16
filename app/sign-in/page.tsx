@@ -175,7 +175,9 @@ export default function SignIn() {
           src="/images/sign-in-hero.jpg"
           alt="Sign in visual"
           fill
+          sizes="35vw"
           className="object-cover"
+          loading="eager"
         />
       </div>
     </div>

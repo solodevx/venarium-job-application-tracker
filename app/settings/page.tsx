@@ -110,20 +110,18 @@ function SettingsContent() {
     setPasswordLoading(true);
     try {
       if (isOAuthUser) {
-        const result = await authClient.changePassword({
-          newPassword: passwordData.newPassword,
-          currentPassword: "",
+        const result = await authClient.requestPasswordReset({
+          email: session?.user?.email ?? "",
+          redirectTo: "/reset-password",
         });
         if (result.error) {
-          setPasswordError(result.error.message ?? "Failed to set password");
+          setPasswordError(
+            result.error.message ?? "Failed to send reset email",
+          );
         } else {
-          setPasswordSuccess("Password added successfully!");
-          setIsOAuthUser(false);
-          setPasswordData({
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-          });
+          setPasswordSuccess(
+            "Check your email for a link to set your password!",
+          );
         }
       } else {
         const result = await authClient.changePassword({
@@ -230,6 +228,50 @@ function SettingsContent() {
           </p>
           {accountsLoading ? (
             <p className="text-xs text-muted-foreground">Loading...</p>
+          ) : isOAuthUser ? (
+            <div className="space-y-4">
+              {passwordError && (
+                <div className="rounded-none bg-destructive/10 border-l-2 border-destructive p-3 text-sm text-destructive">
+                  {passwordError}
+                </div>
+              )}
+              {passwordSuccess && (
+                <div className="rounded-none bg-accent/10 border-l-2 border-accent p-3 text-sm text-accent">
+                  {passwordSuccess}
+                </div>
+              )}
+              <button
+                type="button"
+                disabled={passwordLoading}
+                onClick={async () => {
+                  setPasswordLoading(true);
+                  setPasswordError("");
+                  setPasswordSuccess("");
+                  try {
+                    const result = await authClient.requestPasswordReset({
+                      email: session.user.email,
+                      redirectTo: "/reset-password",
+                    });
+                    if (result.error) {
+                      setPasswordError(
+                        result.error.message ?? "Failed to send email",
+                      );
+                    } else {
+                      setPasswordSuccess(
+                        "Check your email for a link to set your password!",
+                      );
+                    }
+                  } catch {
+                    setPasswordError("An unexpected error occurred");
+                  } finally {
+                    setPasswordLoading(false);
+                  }
+                }}
+                className="w-full h-11 bg-primary text-primary-foreground text-xs font-medium uppercase tracking-[0.12em] transition hover:bg-foreground hover:text-background disabled:opacity-50"
+              >
+                {passwordLoading ? "Sending..." : "Send Password Setup Link"}
+              </button>
+            </div>
           ) : (
             <form onSubmit={handlePasswordChange} className="space-y-4">
               {passwordError && (

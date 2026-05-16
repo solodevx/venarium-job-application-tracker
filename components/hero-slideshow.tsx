@@ -32,6 +32,7 @@ export default function HeroSlideshow() {
             src={slide.src}
             alt={slide.alt}
             fill
+            sizes="50vw"
             className="object-cover"
             priority={i === 0}
           />

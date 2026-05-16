@@ -18,30 +18,18 @@ export async function DELETE() {
     const db = mongoose.connection.db;
     const userId = session.user.id;
 
-    // Get board IDs first then delete columns by boardId
     const boards = await db?.collection("boards").find({ userId }).toArray();
-    const boardIds = boards?.map((b) => b._id.toString()) || [];
+    const boardIds = boards?.map(b => b._id.toString()) || [];
+    const boardObjectIds = boardIds.map(id => new mongoose.Types.ObjectId(id));
 
-    const sampleColumn = await db?.collection("columns").findOne({});
-    console.log("Sample column:", JSON.stringify(sampleColumn));
-    console.log("Board IDs:", boardIds);
-
-    const boardObjectIds = boardIds.map(
-      (id) => new mongoose.Types.ObjectId(id),
-    );
-    await db?.collection("columns").deleteMany({
-      boardId: { $in: boardObjectIds },
-    });
+    await db?.collection("columns").deleteMany({ boardId: { $in: boardObjectIds } });
     await db?.collection("boards").deleteMany({ userId });
     await db?.collection("jobapplications").deleteMany({ userId });
 
-    // Delete auth data
     let userResult;
     try {
       userResult = await db?.collection("user").deleteOne({
-        _id: new mongoose.Types.ObjectId(
-          userId,
-        ) as unknown as mongoose.Types.ObjectId,
+        _id: new mongoose.Types.ObjectId(userId) as unknown as mongoose.Types.ObjectId,
       });
     } catch {
       userResult = await db?.collection("user").deleteOne({ id: userId });
@@ -59,12 +47,7 @@ export async function DELETE() {
       $or: [{ userId }, { userId: new mongoose.Types.ObjectId(userId) }],
     });
 
-    console.log(
-      "Account deleted for user:",
-      userId,
-      "| User doc deleted:",
-      userResult?.deletedCount,
-    );
+    console.log("Account deleted for user:", userId, "| User doc deleted:", userResult?.deletedCount);
 
     const response = NextResponse.json({ success: true });
     response.cookies.set("better-auth.session_token", "", {
