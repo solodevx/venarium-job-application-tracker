@@ -130,12 +130,12 @@ function DroppableColumn({
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem className="text-destructive">
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete Column
-              </DropdownMenuItem>
-            </DropdownMenuContent>
+<DropdownMenuContent align="end" className="rounded-none w-40">
+  <DropdownMenuItem className="rounded-none justify-end text-white bg-destructive focus:bg-destructive/80 focus:text-white">
+    <Trash2 className="mr-2 h-4 w-4" />
+    Delete Column
+  </DropdownMenuItem>
+</DropdownMenuContent>
           </DropdownMenu>
         </div>
       </CardHeader>
@@ -246,10 +246,11 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
     }),
   );
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    setIsMounted(true);
-  }, []);
+useEffect(() => {
+  // mounting check to prevent SSR hydration issues with dnd-kit
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  setIsMounted(true);
+}, []);
 
   if (!isMounted) return null;
 

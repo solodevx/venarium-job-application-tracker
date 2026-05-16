@@ -26,13 +26,50 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Venarium",
+    default: "Venarium — Job Application Tracker",
     template: "%s | Venarium",
   },
-  description: "Track and manage your job applications in one place.",
-  icons: {
-    icon: " /logo/logo.svg",
+  description:
+    "Venarium is a free kanban-style job application tracker. Organize your job search, track applications from wishlist to offer, and never lose sight of an opportunity.",
+  keywords: [
+    "job application tracker",
+    "job search organizer",
+    "kanban job tracker",
+    "career pipeline",
+    "job hunt tool",
+    "free job tracker",
+  ],
+  authors: [{ name: "solo.devx", url: "https://github.com/solodevx" }],
+  creator: "solo.devx",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://venarium.vercel.app",
+    title: "Venarium — Job Application Tracker",
+    description:
+      "Track every opportunity. Stay ahead. A free kanban board for your job search.",
+    siteName: "Venarium",
+    images: [
+      {
+        url: "/images/hero-1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Venarium Job Application Tracker",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Venarium — Job Application Tracker",
+    description:
+      "Track every opportunity. Stay ahead. A free kanban board for your job search.",
+    creator: "@_solodevx",
+    images: ["/images/hero-1.jpg"],
+  },
+  icons: {
+    icon: "/logo/logo.svg",
+  },
+  metadataBase: new URL("https://venarium.vercel.app"),
 };
 
 export default function RootLayout({

@@ -116,9 +116,7 @@ export default function JobApplicationCard({
       const result = await updateJobApplication(job._id, {
         columnId: newColumnId,
       });
-
-      console.log("=== MOVE RESULT ===", JSON.stringify(result));
-
+      
       if (!result.error) {
         onJobMoved?.(job._id, newColumnId, result.data);
       }
@@ -184,10 +182,13 @@ export default function JobApplicationCard({
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setIsEditing(true)}>
-                    <Edit2 className="mr-2 h-4 w-4" />
+                <DropdownMenuContent align="end" className="rounded-none w-44">
+                  <DropdownMenuItem
+                    className="rounded-none justify-end"
+                    onClick={() => setIsEditing(true)}
+                  >
                     Edit
+                    <Edit2 className="ml-2 h-4 w-4" />
                   </DropdownMenuItem>
                   {columns.length > 1 && (
                     <>
@@ -196,6 +197,7 @@ export default function JobApplicationCard({
                         .map((column, key) => (
                           <DropdownMenuItem
                             key={key}
+                            className="rounded-none justify-end"
                             onClick={() => handleMove(column._id)}
                           >
                             Move to {column.name}
@@ -204,11 +206,11 @@ export default function JobApplicationCard({
                     </>
                   )}
                   <DropdownMenuItem
-                    className="text-destructive"
+                    className="rounded-none justify-end text-white bg-destructive focus:bg-destructive/80 focus:text-white"
                     onClick={() => handleDelete()}
                   >
-                    <Trash2 className="mr-2 h-4 w-4" />
                     Delete
+                    <Trash2 className="ml-2 h-4 w-4" />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

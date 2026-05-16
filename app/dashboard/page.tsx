@@ -4,6 +4,12 @@ import { Board } from "@/lib/models";
 import { redirect } from "next/navigation";
 import KanbanBoard from "@/components/kanban-board";
 import { Suspense } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Your job application pipeline.",
+};
 
 async function getBoard(userId: string) {
   await connectDB();

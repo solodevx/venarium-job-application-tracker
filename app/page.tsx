@@ -4,6 +4,13 @@ import HeroCta from "@/components/hero-cta";
 import HeroSlideshow from "@/components/hero-slideshow";
 import { ArrowRight, Briefcase, CheckCircle2, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Venarium — Track Every Opportunity, Stay Ahead",
+  description:
+    "A free kanban-style job application tracker. Organize your job search pipeline from wishlist to offer in one clean dashboard.",
+};
 
 export default function Home() {
   return (
