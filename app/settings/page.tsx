@@ -9,12 +9,7 @@ import { useState, useRef, useEffect, Suspense } from "react";
 import { Camera } from "lucide-react";
 import { useRouter } from "next/navigation";
 import DeleteAccountButton from "@/components/delete-account-button";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Settings",
-  description: "Manage your Venarium account settings.",
-};
 
 function SettingsContent() {
   const { data: session, refetch } = useSession();
