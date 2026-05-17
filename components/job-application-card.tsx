@@ -57,6 +57,7 @@ export default function JobApplicationCard({
   const [isEditing, setIsEditing] = useState(false);
   const [isViewing, setIsViewing] = useState(false);
 
+  // close the slide-over panel when the user presses Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsViewing(false);
@@ -82,6 +83,7 @@ export default function JobApplicationCard({
     try {
       const result = await updateJobApplication(job._id, {
         ...formData,
+        // tags are stored as a comma-separated string in the form but as an array in the database
         tags: formData.tags
           .split(",")
           .map((tag) => tag.trim())
@@ -116,7 +118,7 @@ export default function JobApplicationCard({
       const result = await updateJobApplication(job._id, {
         columnId: newColumnId,
       });
-      
+
       if (!result.error) {
         onJobMoved?.(job._id, newColumnId, result.data);
       }
@@ -168,6 +170,7 @@ export default function JobApplicationCard({
                   href={job.jobUrl}
                   target="_blank"
                   className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-1"
+                  // stop the click from bubbling up to the card and opening the slide-over
                   onClick={(e) => e.stopPropagation()}
                 >
                   View Job

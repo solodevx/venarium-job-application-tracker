@@ -64,6 +64,7 @@ export async function createJobApplication(data: JobApplicationData) {
     return { error: "Column not found" };
   }
 
+  // get the highest order value in this column so the new card goes to the bottom
   const maxOrder = (await JobApplication.findOne({ columnId })
     .sort({ order: -1 })
     .select("order")
@@ -89,7 +90,6 @@ export async function createJobApplication(data: JobApplicationData) {
     $push: { jobApplications: jobApplication._id },
   });
 
-
   return { data: JSON.parse(JSON.stringify(jobApplication)) };
 }
 
@@ -106,7 +106,7 @@ export async function updateJobApplication(
     order?: number;
     tags?: string[];
     description?: string;
-  }
+  },
 ) {
   const session = await getSession();
 
@@ -142,6 +142,8 @@ export async function updateJobApplication(
   const currentColumnId = jobApplication.columnId.toString();
   const newColumnId = columnId?.toString();
 
+  // moving between columns needs different handling than reordering within the same column
+  // because we need to update the jobApplications array on both the old and new column documents
   const isMovingToDifferentColumn =
     newColumnId && newColumnId !== currentColumnId;
 
@@ -160,6 +162,8 @@ export async function updateJobApplication(
     let newOrderValue: number;
 
     if (order !== undefined && order !== null) {
+      // we use multiples of 100 for order values so there's room to insert cards
+      // between existing ones without having to renumber everything
       newOrderValue = order * 100;
 
       const jobsThatNeedToShift = jobsInTargetColumn.slice(order);
@@ -194,7 +198,7 @@ export async function updateJobApplication(
 
     const currentJobOrder = jobApplication.order || 0;
     const currentPositionIndex = otherJobsInColumn.findIndex(
-      (job) => job.order > currentJobOrder
+      (job) => job.order > currentJobOrder,
     );
     const oldPositionindex =
       currentPositionIndex === -1
@@ -227,7 +231,6 @@ export async function updateJobApplication(
   const updated = await JobApplication.findByIdAndUpdate(id, updatesToApply, {
     new: true,
   });
-
 
   return { data: JSON.parse(JSON.stringify(updated)) };
 }

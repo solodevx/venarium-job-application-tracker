@@ -18,18 +18,28 @@ export async function DELETE() {
     const db = mongoose.connection.db;
     const userId = session.user.id;
 
+    // columns are linked to boards by boardId, not userId directly
+    // so we need to find the board IDs first before we can delete the columns
     const boards = await db?.collection("boards").find({ userId }).toArray();
-    const boardIds = boards?.map(b => b._id.toString()) || [];
-    const boardObjectIds = boardIds.map(id => new mongoose.Types.ObjectId(id));
+    const boardIds = boards?.map((b) => b._id.toString()) || [];
+    const boardObjectIds = boardIds.map(
+      (id) => new mongoose.Types.ObjectId(id),
+    );
 
-    await db?.collection("columns").deleteMany({ boardId: { $in: boardObjectIds } });
+    await db
+      ?.collection("columns")
+      .deleteMany({ boardId: { $in: boardObjectIds } });
     await db?.collection("boards").deleteMany({ userId });
     await db?.collection("jobapplications").deleteMany({ userId });
 
+    // Better Auth stores the user _id as an ObjectId in MongoDB
+    // we try ObjectId first and fall back to string in case the format differs
     let userResult;
     try {
       userResult = await db?.collection("user").deleteOne({
-        _id: new mongoose.Types.ObjectId(userId) as unknown as mongoose.Types.ObjectId,
+        _id: new mongoose.Types.ObjectId(
+          userId,
+        ) as unknown as mongoose.Types.ObjectId,
       });
     } catch {
       userResult = await db?.collection("user").deleteOne({ id: userId });
@@ -47,9 +57,16 @@ export async function DELETE() {
       $or: [{ userId }, { userId: new mongoose.Types.ObjectId(userId) }],
     });
 
-    console.log("Account deleted for user:", userId, "| User doc deleted:", userResult?.deletedCount);
+    console.log(
+      "Account deleted for user:",
+      userId,
+      "| User doc deleted:",
+      userResult?.deletedCount,
+    );
 
     const response = NextResponse.json({ success: true });
+    // manually expire the session cookies so the browser clears them immediately
+    // this prevents the user from appearing logged in after account deletion
     response.cookies.set("better-auth.session_token", "", {
       expires: new Date(0),
       path: "/",

@@ -49,6 +49,7 @@ interface ColConfig {
   color: string;
   icon: React.ReactNode;
 }
+// visual config for each pipeline stage — order matches the column order in the database
 const COLUMN_CONFIG: Array<ColConfig> = [
   {
     color: "bg-gray-500",
@@ -130,12 +131,12 @@ function DroppableColumn({
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-<DropdownMenuContent align="end" className="rounded-none w-40">
-  <DropdownMenuItem className="rounded-none justify-end text-white bg-destructive focus:bg-destructive/80 focus:text-white">
-    <Trash2 className="mr-2 h-4 w-4" />
-    Delete Column
-  </DropdownMenuItem>
-</DropdownMenuContent>
+            <DropdownMenuContent align="end" className="rounded-none w-40">
+              <DropdownMenuItem className="rounded-none justify-end text-white bg-destructive focus:bg-destructive/80 focus:text-white">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Column
+              </DropdownMenuItem>
+            </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </CardHeader>
@@ -246,11 +247,12 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
     }),
   );
 
-useEffect(() => {
-  // mounting check to prevent SSR hydration issues with dnd-kit
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  setIsMounted(true);
-}, []);
+  useEffect(() => {
+    // dnd-kit breaks on SSR because it needs access to the DOM
+    // we wait until the component is mounted on the client before rendering
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setIsMounted(true);
+  }, []);
 
   if (!isMounted) return null;
 
@@ -286,7 +288,8 @@ useEffect(() => {
 
     if (!draggedJob || !sourceColumn) return;
 
-    // Check if dropped in a column or another job
+    // the drag target can be either a column (drop into empty space) or a job card
+    // we handle both cases to figure out where the card should land
     const targetColumn = sortedColumns.find((col) => col._id === overId);
     const targetJob = sortedColumns
       .flatMap((col) => col.jobApplications || [])
@@ -330,6 +333,8 @@ useEffect(() => {
       );
 
       if (targetIndexInFiltered !== -1) {
+        // when dragging within the same column, we need to account for the
+        // fact that removing the card shifts all indices below it by one
         if (sourceColumn._id === targetColumnId) {
           if (sourceIndex < targetIndexInOriginal) {
             newOrder = targetIndexInFiltered + 1;

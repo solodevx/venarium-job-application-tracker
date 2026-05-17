@@ -6,6 +6,8 @@ import { initializeUserBoard } from "../init-user-board";
 import connectDB from "../db";
 import nodemailer from "nodemailer";
 
+// Gmail SMTP via nodemailer — uses an App Password, not your actual Gmail password
+// App Passwords are generated in Google Account > Security > 2-Step Verification > App passwords
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
@@ -30,6 +32,7 @@ export const auth = betterAuth({
   }),
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+  // session lasts 7 days, refreshes every 24 hours if the user is active
   session: {
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
@@ -93,6 +96,9 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
+
+  // after a new user is created, automatically set up their default kanban board
+  // this runs for both email signup and Google OAuth
   databaseHooks: {
     user: {
       create: {

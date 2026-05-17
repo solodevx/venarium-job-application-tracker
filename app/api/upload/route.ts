@@ -18,10 +18,13 @@ export async function POST(req: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    // Cloudinary's upload API accepts base64-encoded images
+    // we convert the file buffer to base64 with the correct MIME type prefix
     const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
 
     const result = await cloudinary.uploader.upload(base64, {
       folder: "venarium/avatars",
+      // auto-crop to a 200x200 square and try to keep the face centered
       transformation: [
         { width: 200, height: 200, crop: "fill", gravity: "face" },
       ],

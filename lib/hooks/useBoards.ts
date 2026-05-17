@@ -52,6 +52,8 @@ export function useBoard(initialBoard?: Board | null) {
 
           const updatedJobs = [...targetColumn.jobApplications];
 
+          // insert the card at the new position, then renumber all cards in the column
+          // this keeps the UI in sync before the server responds (optimistic update)
           updatedJobs.splice(newOrder, 0, {
             ...jobToMove,
             columnId: newColumnId,
@@ -81,22 +83,24 @@ export function useBoard(initialBoard?: Board | null) {
     }
   }
 
- function addJob(newJob: JobApplication, columnId: string) {
-  setColumns((prev) =>
-    prev.map((column) => {
-      if (column._id !== columnId) return column;
-      return {
-        ...column,
-        jobApplications: [...column.jobApplications, newJob],
-      };
-    })
-  );
-}
+  function addJob(newJob: JobApplication, columnId: string) {
+    setColumns((prev) =>
+      prev.map((column) => {
+        if (column._id !== columnId) return column;
+        return {
+          ...column,
+          jobApplications: [...column.jobApplications, newJob],
+        };
+      }),
+    );
+  }
   function removeJob(jobId: string) {
     setColumns((prev) =>
       prev.map((column) => ({
         ...column,
-        jobApplications: column.jobApplications.filter((job) => job._id !== jobId),
+        jobApplications: column.jobApplications.filter(
+          (job) => job._id !== jobId,
+        ),
       })),
     );
   }
@@ -112,26 +116,42 @@ export function useBoard(initialBoard?: Board | null) {
     );
   }
 
-function moveJobBetweenColumns(jobId: string, newColumnId: string, updatedJob: JobApplication) {
-  setColumns((prev) =>
-    prev.map((column) => {
-      if (column.jobApplications.some((job) => job._id === jobId)) {
-        return {
-          ...column,
-          jobApplications: column.jobApplications.filter((job) => job._id !== jobId),
-        };
-      }
-      if (column._id === newColumnId) {
-        return {
-          ...column,
-          jobApplications: [...column.jobApplications, updatedJob],
-        };
-      }
-      return column;
-    })
-  );
-}
+  // called after the server confirms a move — replaces the local optimistic update
+  // with the actual data returned from the database
+  function moveJobBetweenColumns(
+    jobId: string,
+    newColumnId: string,
+    updatedJob: JobApplication,
+  ) {
+    setColumns((prev) =>
+      prev.map((column) => {
+        if (column.jobApplications.some((job) => job._id === jobId)) {
+          return {
+            ...column,
+            jobApplications: column.jobApplications.filter(
+              (job) => job._id !== jobId,
+            ),
+          };
+        }
+        if (column._id === newColumnId) {
+          return {
+            ...column,
+            jobApplications: [...column.jobApplications, updatedJob],
+          };
+        }
+        return column;
+      }),
+    );
+  }
 
-
-return { board, columns, error, moveJob, addJob, removeJob, updateJob, moveJobBetweenColumns };
+  return {
+    board,
+    columns,
+    error,
+    moveJob,
+    addJob,
+    removeJob,
+    updateJob,
+    moveJobBetweenColumns,
+  };
 }
